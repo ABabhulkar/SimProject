@@ -69,6 +69,8 @@ class ClientApp():
                 self.app_sock.settimeout(1)
                 self.app_sock.connect(('localhost', 5002))
                 logger.debug("Connected to the server!")
+                message = f"{self.name}:connected"
+                self.app_sock.sendall(message.encode())
                 return True
             except socket.error as e:
                 logger.debug(f"{e}")
