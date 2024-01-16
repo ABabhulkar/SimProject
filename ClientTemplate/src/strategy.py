@@ -1,5 +1,5 @@
 # If you receive -1 means you are P1 and you have to start.
-def generateReply(self, receivedMove, _sendReply=None):
+def generateReply(receivedMove, _sendReply=None):
     if receivedMove == -1:
         # Implement logic to generate first move as P1
         move = 0

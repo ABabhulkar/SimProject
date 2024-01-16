@@ -22,11 +22,11 @@ def handle_client(client_socket, client_addr):
             break
         try:
             data = client_socket.recv(1024)
+            if not data:
+                break
+            logger.debug(f"Received from {client_addr}: {data.decode()}")
         except TimeoutError:
             NotImplemented
-        if not data:
-            break
-        logger.debug(f"Received from {client_addr}: {data.decode()}")
 
         # Send the received data to all other clients
         for client in clients:
@@ -53,6 +53,8 @@ def start_server(soc):
         client_socket, client_addr = soc.accept()
         logger.info(f"Connected to {client_addr}")
 
+        clients.append(client_socket)
+
         # Start a new thread to handle each client
         client_thread = threading.Thread(
             target=handle_client, args=(client_socket, client_addr))
@@ -66,14 +68,29 @@ def start_server(soc):
 if __name__ == "__main__":
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     setup_logger()
+    stop = False
+    clients = []
     result = start_server(server_socket)
+
+    # TODO: Make testing automated
+    # - User should put test inputs in array and run test
+    # - Test should wait for connection
+    # - once connected test should send test data with delay
 
     if result:
         while True:
             _in = input()
-            if _in == 'end_s':
-                break
             try:
-                server_socket.sendall(_in.encode())
+                for client in clients:
+                    try:
+                        client.sendall(_in.encode())
+                    except Exception as e:
+                        logger.error(
+                            f"Error sending data to {client.getpeername()}: {e}")
             except TimeoutError:
                 logger.error('Server connection timeout')
+
+            if _in == 'end':
+                break
+    stop = True
+    sleep(1)

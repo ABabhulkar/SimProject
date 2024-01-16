@@ -16,7 +16,7 @@ lock = threading.Lock()
 # Create an event
 event = threading.Event()
 # logger to log things in code
-logger = logging.getLogger("clientApp")
+logger = logging.getLogger(" clientApp ")
 
 
 def setup_logger():
@@ -45,7 +45,7 @@ def monitor_communication(_name, _data, _event):
             with lock:
                 _data.msg = data.decode()
                 _data.state = State.DataReceived
-            logger.debug(f"Received in {_name}: {data.decode()}")
+            logger.debug(f"-> {_name}: {data.decode()}")
             _event.set()
         except TimeoutError:
             NotImplemented
@@ -87,9 +87,11 @@ class ClientApp():
         parts = line.strip().split(':')
         if len(parts) == 2:
             key, value = parts[0], parts[1]
+            # TODO :filter based on own name and respond on other names
             if key.startswith('P') and value.isdigit():
                 generateReply(int(value), self._sendReply)
 
+        # TODO :Repeat start are not allowed
         elif line.strip() == 'start':
             generateReply(-1, self._sendReply)
 
@@ -115,7 +117,7 @@ class ClientApp():
     def _sendReply(self, replay):
         if self.name is not None:
             message = f"{self.name}:{replay}"
-            logger.debug(message)
+            logger.info(f'<-{message}')
             self.app_sock.sendall(message.encode())
         else:
             logger.error("Application name is empty")
@@ -123,6 +125,9 @@ class ClientApp():
     def execute(self, name):
         started = True
         self.name = name
+
+        # -------------start-----------------
+        # TODO: maybe move this section to connection state
         is_Connected = self._connectToServer()
 
         if is_Connected:
@@ -139,10 +144,12 @@ class ClientApp():
         else:
             logger.info("Exit code")
             state = State.End
+        # -------------end-----------------
 
         while started:
             match state:
                 case State.Idle:
+                    # TODO: figure out way to go in connection mode if disconnected
                     if event.is_set():
                         with lock:
                             state = shared_data.state
