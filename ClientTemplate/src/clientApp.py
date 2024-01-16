@@ -1,6 +1,8 @@
 import socket
 import sys
 import threading
+import logging
+import time
 from sharedData import State
 from sharedData import SharedData
 from time import sleep
@@ -13,9 +15,16 @@ shared_data = SharedData()
 lock = threading.Lock()
 # Create an event
 event = threading.Event()
+# logger to log things in code
+logger = logging.getLogger("clientApp")
 
 
-def monitor_communication(num, _data, _event):
+def setup_logger():
+    logging.basicConfig()
+    logger.setLevel(logging.DEBUG)
+
+
+def monitor_communication(_name, _data, _event):
     while True:
         # Check if the event is set by worker2
         if _event.is_set():
@@ -26,55 +35,110 @@ def monitor_communication(num, _data, _event):
                     break
 
         with lock:
-            stop = _data.stopFlag
             sock = _data.socket
 
         try:
             data = sock.recv(1024)
             if not data:
                 break
-            print(f"Received in app{num}: {data.decode()}")
+
+            with lock:
+                _data.msg = data.decode()
+                _data.state = State.DataReceived
+            logger.debug(f"Received in {_name}: {data.decode()}")
+            _event.set()
         except TimeoutError:
             NotImplemented
-
-        # TODO: set the state based on received command
-        with lock:
-            _data.state = State.End
-            # Set event after state update.
-            _event.set()
 
 
 class ClientApp():
     def __init__(self):
         self.count = 0
         self.stop_thread = False
+        self.monitor_thread1 = None
+        self.name = None
+        setup_logger()
         # Create a socket
         self.app_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    def _connectToServer(self, name):
-        # Connect to the server (app1) on localhost and port 5001
-        self.app_sock.connect(('localhost', 5002))
-        self.app_sock.settimeout(1)
+    def _connectToServer(self, timeout=10):
+        # Connect to the server (app1) on localhost and port 5002
+        start_time = time.time()
+        while True:
+            try:
+                self.app_sock.settimeout(1)
+                self.app_sock.connect(('localhost', 5002))
+                logger.debug("Connected to the server!")
+                return True
+            except socket.error as e:
+                logger.debug(f"{e}")
 
-        # TODO: add error handling here
+                # Check if the timeout has been reached
+                elapsed_time = time.time() - start_time
+                if elapsed_time >= timeout:
+                    logger.error(
+                        f"Timeout ({timeout} seconds) reached. Unable to connect.")
+                    return None
 
+                # Sleep for a short duration before attempting to connect again
+                time.sleep(1)
+
+    def _handleMsg(self, line):
+        parts = line.strip().split(':')
+        if len(parts) == 2:
+            key, value = parts[0], parts[1]
+            if key.startswith('P') and value.isdigit():
+                generateReply(int(value), self._sendReply)
+
+        elif line.strip() == 'start':
+            generateReply(-1, self._sendReply)
+
+        elif line.strip() == 'end':
+            return -1
+
+        return None
+
+    def _stopServer(self):
         with lock:
-            shared_data.socket = self.app_sock
-            shared_data.stopFlag = False
+            shared_data.stopFlag = True
+            event.set()
 
-        # Start threads to monitor communication in both directions
-        self.monitor_thread1 = threading.Thread(
-            target=monitor_communication, args=(name, shared_data, event,))
-        self.monitor_thread1.start()
+        if self.monitor_thread1:
+            self.monitor_thread1.join()
+
+        # TODO: wait for all threads to stop
+        self._disconnectServer()
+
+    def _disconnectServer(self):
+        NotImplemented
+
+    def _sendReply(self, replay):
+        if self.name is not None:
+            message = f"{self.name}:{replay}"
+            logger.debug(message)
+            self.app_sock.sendall(message.encode())
+        else:
+            logger.error("Application name is empty")
 
     def execute(self, name):
         started = True
+        self.name = name
+        is_Connected = self._connectToServer()
 
-        # self._connectToServer(name)
+        if is_Connected:
+            with lock:
+                shared_data.socket = self.app_sock
+                shared_data.stopFlag = False
+                shared_data.state = State.Idle
+                state = shared_data.state
 
-        with lock:
-            shared_data.state = State.Idle
-            state = shared_data.state
+            # Start threads to monitor communication in both directions
+            self.monitor_thread1 = threading.Thread(
+                target=monitor_communication, args=(name, shared_data, event,))
+            self.monitor_thread1.start()
+        else:
+            logger.info("Exit code")
+            state = State.End
 
         while started:
             match state:
@@ -84,45 +148,26 @@ class ClientApp():
                             state = shared_data.state
                             # Reset the event after updating state
                             event.clear()
-
-                case State.StartAsPlayer1:
-                    generateReply(-1, self._sendReply)
-                    state = State.Idle
-
-                case State.MoveReceived:
-                    # TODO: Read receivedMove this is temp fix
-                    generateReply(1, self._sendReply)
-                    state = State.Idle
+                case State.DataReceived:
+                    with lock:
+                        msg = shared_data.msg
+                    result = self._handleMsg(msg)
+                    if result == -1:
+                        state = State.End
+                    else:
+                        state = State.Idle
 
                 case State.End:
                     started = False
 
         self._stopServer()
 
-    def _stopServer(self):
-        with lock:
-            shared_data.stopFlag = True
-            event.set()
-
-        self.monitor_thread1.join()
-        # wait for all threads to stop
-        self._disconnectServer()
-
-    def _disconnectServer(self):
-        NotImplemented
-
-    def _sendReply(self, replay):
-        message = f"P1:{replay}"
-        self.app_sock.sendall(message.encode())
-
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         app_num = sys.argv[1]
     else:
-        app_num = 0
-        print("Hello, world!")
+        app_num = "clientApp"
 
-    # TODO: do error handling here
     app = ClientApp()
     app.execute(app_num)

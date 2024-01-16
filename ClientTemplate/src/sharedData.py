@@ -1,8 +1,7 @@
 class State:
     Idle = 1
-    StartAsPlayer1 = 2
-    MoveReceived = 3
     End = 4
+    DataReceived = 5
 
 
 class SharedData:
