@@ -12,3 +12,5 @@ class SharedData:
         self.stopFlag = False
         self.state = State.Idle
         self.msg = None
+        self.clients = {}
+        self.isConnectionMonitor = True
