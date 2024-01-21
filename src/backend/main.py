@@ -4,8 +4,8 @@ import subprocess
 import threading
 from time import sleep
 
-from backend.clientTask import ClientTask
-from backend.utils.sharedData import SharedData, State
+from clientTask import ClientTask
+from utils.sharedData import SharedData, State
 
 # Create an instance of SharedData
 shared_data = SharedData()
@@ -23,57 +23,82 @@ def setup_logger():
     logger.setLevel(logging.DEBUG)
 
 
+def _parseMsg(line):
+    parts = line.strip().split(':')
+    if len(parts) == 2:
+        key, value = parts[0], parts[1]
+        if key.startswith('P') and value == "connected":
+            return key, True
+        elif key.startswith('P'):
+            return value, False
+
+    return None
+
+
 def handle_client(client_socket, client_addr):
     # This is a thread run function which should be invoked per client
-    client = ClientTask()
+    stop = False
 
-    global clients
-    global stop
     client_socket.settimeout(1)
     while True:
         if stop == True:
             break
         try:
             data = client_socket.recv(1024)
+            if not data:
+                break
+            logger.debug(f"Received from {client_addr}: {data.decode()}")
+
+            name, isAck = _parseMsg(data)
+            if isAck:
+                with lock:
+                    shared_data.clients[name].socket = client_socket
+            else:
+                NotImplemented
+                # TODO: Save the move and forward to others.
+
         except TimeoutError:
             NotImplemented
-        if not data:
-            break
-        logger.debug(f"Received from {client_addr}: {data.decode()}")
 
-        # Send the received data to all other clients
-        for client in clients:
-            if client != client_socket:
-                try:
-                    client.sendall(data)
-                except Exception as e:
-                    # print(f"Error sending data to {client.getpeername()}: {e}")
-                    # client.close()
-                    clients.remove(client)
+    #     # Send the received data to all other clients
+    #     for client in clients:
+    #         if client != client_socket:
+    #             try:
+    #                 client.sendall(data)
+    #             except Exception as e:
+    #                 # print(f"Error sending data to {client.getpeername()}: {e}")
+    #                 # client.close()
+    #                 clients.remove(client)
 
     client_socket.close()
 
 
-def monitor_connection_events(server_socket):
+def monitor_connection_events(server_socket, _event):
     # This is a thread function which monitors the connection events for the clients
     # and stores the handlers while starting separate thread per client to monitor
     # data reception and transmission events.
     server_socket.settimeout(5)
+    clientCount = 0
     while True:
         with lock:
             if not shared_data.isConnectionMonitor:
                 break
         try:
+            logger.debug(f'Monitoring for Client {clientCount}')
             client_socket, client_addr = server_socket.accept()
             logger.info(f"Connected to {client_addr}")
-
-            # TODO: Figure out how to save the client socket into specific client
-            # clients.append(client_socket)
 
             # Start a new thread to handle each client
             client_thread = threading.Thread(
                 target=handle_client, args=(client_socket, client_addr))
             client_thread.start()
+            clientCount += 1
+            if clientCount == 2:
+                with lock:
+                    shared_data.state = State.StartGame
+                _event.set()
+                logger.debug(f'Closing Monitor')
+                break
         except TimeoutError:
             logger.error('Server connection timeout')
 
@@ -85,6 +110,8 @@ class GameCore:
         self._timeout = 1
         self._port = 5002
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        setup_logger()
+        logger.debug("Init done")
 
     def _startServer(self):
         self._socket.bind(('localhost', self._port))
@@ -93,7 +120,7 @@ class GameCore:
         logger.info("Server is listening for incoming connections...")
 
         self.monitorConnection = threading.Thread(
-            target=handle_client, args=(self._socket,))
+            target=monitor_connection_events, args=(self._socket, event))
         with lock:
             shared_data.isConnectionMonitor = True
         self.monitorConnection.start()
@@ -107,7 +134,7 @@ class GameCore:
 
     def _stateMachine(self, client1_dir, client2_dir):
         with lock:
-            shared_data.state = State.Idle
+            shared_data.state = State.StartPlayer
             state = shared_data.state
 
         while True:
@@ -120,6 +147,7 @@ class GameCore:
                             event.clear()
 
                 case State.StartPlayer:
+                    logger.debug(f'Entered state: StartPlayer')
                     with lock:
                         if client1_dir is not None:
                             P1 = ClientTask('P1', client1_dir)
@@ -130,27 +158,28 @@ class GameCore:
 
                         # Iterating over player to start processes
                         for key, value in shared_data.clients.items():
-                            logger.debug(f"player: {key}")
-                            value.startApp()
+                            logger.debug(f"Start player: {key}")
+                            value.startApp(logger)
 
-                    # TODO: wait for both players to connect
-                    state = State.StartGame
+                    state = State.Idle
 
                 case State.StartGame:
+                    logger.debug(f'Entered state: StartGame')
                     with lock:
-                        NotImplemented
-                    # TODO: Select player 1 and start the game by sending command 'start'
-                    state = State.CalculateResults
+                        shared_data.clients['P1'].startApp()
+                    state = State.Idle
 
                 case State.CalculateResults:
+                    logger.debug(f'Entered state: CalculateResults')
                     # TODO: stop players and calculate final results.
                     state = State.Idle
 
                 case State.End:
+                    logger.debug(f'Entered state: End')
                     break
 
     def execute(self, client1_dir, client2_dir):
-        # start server
+        logger.debug(f'Started execution')
         result = self._startServer()
 
         if result:
@@ -167,6 +196,6 @@ class GameCore:
 if __name__ == "__main__":
 
     # This is dir for the test application
-    P1_dir = ''
+    P1_dir = '/mnt/d/Projects/PythonWS/SimProject/ClientTemplate/src/dummy.py'
     gameCore = GameCore()
     gameCore.execute(P1_dir, P1_dir)
