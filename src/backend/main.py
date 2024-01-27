@@ -38,7 +38,7 @@ def _parseMsg(line):
 def handle_client(client_socket, client_addr):
     # This is a thread run function which should be invoked per client
     stop = False
-
+    name = ''
     client_socket.settimeout(1)
     while True:
         if stop == True:
@@ -47,29 +47,23 @@ def handle_client(client_socket, client_addr):
             data = client_socket.recv(1024)
             if not data:
                 break
-            logger.debug(f"Received from {client_addr}: {data.decode()}")
+            logger.debug(f"{client_addr[1]} {name}-> {data.decode()}")
 
-            name, isAck = _parseMsg(data)
-            if isAck:
-                with lock:
-                    shared_data.clients[name].socket = client_socket
-            else:
-                NotImplemented
-                # TODO: Save the move and forward to others.
+            value, isAck = _parseMsg(data.decode())
+
+            with lock:
+                if isAck:
+                    shared_data.clients[value].socket = client_socket
+                    name = value
+                else:
+                    # Iterating over player to forward the massage
+                    for key, value in shared_data.clients.items():
+                        if key != name:
+                            value.forwardMove(data)
+                # TODO: Save the move.
 
         except TimeoutError:
             NotImplemented
-
-    #     # Send the received data to all other clients
-    #     for client in clients:
-    #         if client != client_socket:
-    #             try:
-    #                 client.sendall(data)
-    #             except Exception as e:
-    #                 # print(f"Error sending data to {client.getpeername()}: {e}")
-    #                 # client.close()
-    #                 clients.remove(client)
-
     client_socket.close()
 
 
@@ -97,6 +91,8 @@ def monitor_connection_events(server_socket, _event):
                 with lock:
                     shared_data.state = State.StartGame
                 _event.set()
+                sleep(1)
+                # TODO: Wait hear for the connection of both sides
                 logger.debug(f'Closing Monitor')
                 break
         except TimeoutError:
@@ -114,18 +110,23 @@ class GameCore:
         logger.debug("Init done")
 
     def _startServer(self):
-        self._socket.bind(('localhost', self._port))
-        self._socket.listen(self._numOfClients)
-        self._socket.settimeout(self._timeout)
-        logger.info("Server is listening for incoming connections...")
+        # Connects to socket and return true. return false in case of error
+        try:
+            self._socket.bind(('localhost', self._port))
+            self._socket.listen(self._numOfClients)
+            self._socket.settimeout(self._timeout)
+            logger.info("Server is listening for incoming connections...")
 
-        self.monitorConnection = threading.Thread(
-            target=monitor_connection_events, args=(self._socket, event))
-        with lock:
-            shared_data.isConnectionMonitor = True
-        self.monitorConnection.start()
-        # TODO: Add error handling here in case of error return false
-        return True
+            # Start thread to monitor client connections
+            self.monitorConnection = threading.Thread(
+                target=monitor_connection_events, args=(self._socket, event))
+            with lock:
+                shared_data.isConnectionMonitor = True
+            self.monitorConnection.start()
+            return True
+        except socket.error as e:
+            logger.error('Server connection error')
+        return False
 
     def _stopServer(self):
         # here we want to close all the open connection and threads
@@ -166,7 +167,7 @@ class GameCore:
                 case State.StartGame:
                     logger.debug(f'Entered state: StartGame')
                     with lock:
-                        shared_data.clients['P1'].startApp()
+                        shared_data.clients['P1'].sendCommand('start')
                     state = State.Idle
 
                 case State.CalculateResults:
@@ -175,6 +176,7 @@ class GameCore:
                     state = State.Idle
 
                 case State.End:
+                    # TODO: Stop all threads hear
                     logger.debug(f'Entered state: End')
                     break
 
@@ -196,6 +198,7 @@ class GameCore:
 if __name__ == "__main__":
 
     # This is dir for the test application
-    P1_dir = '/mnt/d/Projects/PythonWS/SimProject/ClientTemplate/src/dummy.py'
+    P1_dir = '/mnt/d/Projects/PythonWS/SimProject/ClientTemplate/src/clientApp.py'
+    P2_dir = '/mnt/d/Projects/PythonWS/SimProject/ClientTemplate/src/clientApp.py'
     gameCore = GameCore()
-    gameCore.execute(P1_dir, P1_dir)
+    gameCore.execute(P1_dir, P2_dir)
