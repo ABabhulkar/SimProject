@@ -16,11 +16,13 @@ lock = threading.Lock()
 # Create an event
 event = threading.Event()
 # logger to log things in code
-logger = logging.getLogger(" clientApp ")
+logger = None
 
 
-def setup_logger():
+def setup_logger(name):
     logging.basicConfig()
+    global logger
+    logger = logging.getLogger(f' {name} ')
     logger.setLevel(logging.DEBUG)
 
 
@@ -45,19 +47,19 @@ def monitor_communication(_name, _data, _event):
             with lock:
                 _data.msg = data.decode()
                 _data.state = State.DataReceived
-            logger.debug(f"-> {_name}: {data.decode()}")
+            logger.debug(f"In {data.decode()}")
             _event.set()
         except TimeoutError:
             NotImplemented
 
 
 class ClientApp():
-    def __init__(self):
+    def __init__(self, name):
         self.count = 0
         self.stop_thread = False
         self.monitor_thread1 = None
-        self.name = None
-        setup_logger()
+        self.name = name
+        setup_logger(name)
         # Create a socket
         self.app_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -119,14 +121,13 @@ class ClientApp():
     def _sendReply(self, replay):
         if self.name is not None:
             message = f"{self.name}:{replay}"
-            logger.info(f'<-{message}')
+            logger.info(f'Out {message}')
             self.app_sock.sendall(message.encode())
         else:
             logger.error("Application name is empty")
 
-    def execute(self, name):
+    def execute(self):
         started = True
-        self.name = name
 
         # -------------start-----------------
         # TODO: maybe move this section to connection state
@@ -141,7 +142,7 @@ class ClientApp():
 
             # Start threads to monitor communication in both directions
             self.monitor_thread1 = threading.Thread(
-                target=monitor_communication, args=(name, shared_data, event,))
+                target=monitor_communication, args=(self.name, shared_data, event,))
             self.monitor_thread1.start()
         else:
             logger.info("Exit code")
@@ -178,5 +179,5 @@ if __name__ == "__main__":
     else:
         app_num = "clientApp"
 
-    app = ClientApp()
-    app.execute(app_num)
+    app = ClientApp(app_num)
+    app.execute()
