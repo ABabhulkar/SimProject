@@ -25,4 +25,5 @@ class ClientTask:
         self.socket.sendall(command.encode())
 
     def forwardMove(self, move):
-        self.socket.sendall(move)
+        msg = f'{self.name}:{move}'
+        self.socket.sendall(msg.encode())

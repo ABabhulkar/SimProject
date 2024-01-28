@@ -7,6 +7,9 @@ from time import sleep
 from clientTask import ClientTask
 from utils.sharedData import SharedData, State
 
+PLAYER1 = 'P1'
+PLAYER2 = 'P2'
+
 # Create an instance of SharedData
 shared_data = SharedData()
 # Create a lock
@@ -17,6 +20,8 @@ event = threading.Event()
 # logger to log things in code
 logger = logging.getLogger(" game_core ")
 
+# TODO: check if game specific functions can be removed from this file and make it an interface
+
 
 def setup_logger():
     logging.basicConfig()
@@ -24,6 +29,8 @@ def setup_logger():
 
 
 def _parseMsg(line):
+    # it returns the name if received connected
+    # it returns move otherwise
     parts = line.strip().split(':')
     if len(parts) == 2:
         key, value = parts[0], parts[1]
@@ -31,18 +38,15 @@ def _parseMsg(line):
             return key, True
         elif key.startswith('P'):
             return value, False
-
     return None
 
 
-def handle_client(client_socket, client_addr):
+def handle_client(client_socket, client_addr, _event):
     # This is a thread run function which should be invoked per client
-    stop = False
+    # TODO: check if this function can be moved to clientTask class
     name = ''
     client_socket.settimeout(1)
     while True:
-        if stop == True:
-            break
         try:
             data = client_socket.recv(1024)
             if not data:
@@ -56,14 +60,15 @@ def handle_client(client_socket, client_addr):
                     shared_data.clients[value].socket = client_socket
                     name = value
                 else:
-                    # Iterating over player to forward the massage
-                    for key, value in shared_data.clients.items():
-                        if key != name:
-                            value.forwardMove(data)
-                # TODO: Save the move.
-
+                    round = shared_data.getCurrentRound()
+                    round.updateMove(name, value)
+                    shared_data.roundStatus[name] = True
+                    _event.set()
         except TimeoutError:
             NotImplemented
+        except OSError as e:
+            logger.error(e)
+            break
     client_socket.close()
 
 
@@ -84,7 +89,7 @@ def monitor_connection_events(server_socket, _event):
 
             # Start a new thread to handle each client
             client_thread = threading.Thread(
-                target=handle_client, args=(client_socket, client_addr))
+                target=handle_client, args=(client_socket, client_addr, _event))
             client_thread.start()
             clientCount += 1
             if clientCount == 2:
@@ -141,9 +146,18 @@ class GameCore:
         while True:
             match state:
                 case State.Idle:
-                    if event.is_set():
-                        with lock:
-                            state = shared_data.state
+                    with lock:
+                        if event.is_set():
+                            # l = shared_data.roundStatus.values()
+                            # if all(val == True for val in l) and len(l) != 0:
+                            #     state = State.NextRound
+                            if shared_data.roundStatus.get(PLAYER1, False) and shared_data.roundStatus.get(PLAYER2, False):
+                                state = State.NextRound
+                            elif shared_data.roundStatus.get(PLAYER1, False) and not shared_data.roundStatus.get(PLAYER2, True):
+                                state = State.ForwardMsg
+                            else:
+                                state = shared_data.state
+                                shared_data.state = State.Idle
                             # Reset the event after updating state
                             event.clear()
 
@@ -151,33 +165,63 @@ class GameCore:
                     logger.debug(f'Entered state: StartPlayer')
                     with lock:
                         if client1_dir is not None:
-                            P1 = ClientTask('P1', client1_dir)
+                            P1 = ClientTask(PLAYER1, client1_dir)
                             shared_data.clients[P1.name] = P1
                         if client2_dir is not None:
-                            P2 = ClientTask('P2', client2_dir)
+                            P2 = ClientTask(PLAYER2, client2_dir)
                             shared_data.clients[P2.name] = P2
 
                         # Iterating over player to start processes
                         for key, value in shared_data.clients.items():
                             logger.debug(f"Start player: {key}")
                             value.startApp(logger)
-
                     state = State.Idle
 
+                # TODO: check if we can move the logic of following files to some other class
                 case State.StartGame:
                     logger.debug(f'Entered state: StartGame')
                     with lock:
-                        shared_data.clients['P1'].sendCommand('start')
-                    state = State.Idle
+                        shared_data.maxNumberOfRounds = 10
+                        shared_data.roundStatus[PLAYER1] = False
+                        shared_data.roundStatus[PLAYER2] = False
+                        result = shared_data.nextRound(PLAYER1, PLAYER2)
+                        if result:
+                            shared_data.clients[PLAYER1].sendCommand('start')
+                            state = State.Idle
+
+                case State.NextRound:
+                    logger.debug(f'Entered state: NextRound')
+                    with lock:
+                        shared_data.roundStatus[PLAYER1] = False
+                        shared_data.roundStatus[PLAYER2] = False
+                        result = shared_data.nextRound(PLAYER1, PLAYER2)
+                        if result:
+                            shared_data.clients[PLAYER1].forwardMove(
+                                shared_data.getLastRound().getMove(PLAYER2))
+                            state = State.Idle
+                        else:
+                            state = State.CalculateResults
+
+                case State.ForwardMsg:
+                    logger.debug(f'Entered state: Forward')
+                    with lock:
+                        shared_data.clients[PLAYER2].forwardMove(
+                            shared_data.getCurrentRound().getMove(PLAYER1))
+                        state = State.Idle
 
                 case State.CalculateResults:
                     logger.debug(f'Entered state: CalculateResults')
-                    # TODO: stop players and calculate final results.
-                    state = State.Idle
+                    for key, value in shared_data.clients.items():
+                        value.sendCommand('end')
+                    # TODO: Calculate final results.
+                    state = State.End
 
                 case State.End:
-                    # TODO: Stop all threads hear
-                    logger.debug(f'Entered state: End')
+                    # Iterating over player to start processes
+                    for key, value in shared_data.clients.items():
+                        # value.socket.close()
+                        NotImplemented
+                    logger.error(f'Entered state: End')
                     break
 
     def execute(self, client1_dir, client2_dir):
