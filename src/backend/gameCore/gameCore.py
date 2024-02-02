@@ -1,11 +1,12 @@
 import logging
 import socket
-import subprocess
 import threading
 from time import sleep
+from typing import Callable
 
 from gameCore.clientTask import ClientTask
 from gameCore.utils.sharedData import SharedData, State
+from gameLogic.IGameLogic import IGameLogic
 
 PLAYER1 = 'P1'
 PLAYER2 = 'P2'
@@ -28,51 +29,7 @@ def setup_logger():
     logger.setLevel(logging.DEBUG)
 
 
-def _parseMsg(line):
-    # it returns the name if received connected
-    # it returns move otherwise
-    parts = line.strip().split(':')
-    if len(parts) == 2:
-        key, value = parts[0], parts[1]
-        if key.startswith('P') and value == "connected":
-            return key, True
-        elif key.startswith('P'):
-            return value, False
-    return None
-
-
-def handle_client(client_socket, client_addr, _event):
-    # This is a thread run function which should be invoked per client
-    # TODO: check if this function can be moved to clientTask class
-    name = ''
-    client_socket.settimeout(1)
-    while True:
-        try:
-            data = client_socket.recv(1024)
-            if not data:
-                break
-            logger.debug(f"{client_addr[1]} {name}-> {data.decode()}")
-
-            value, isAck = _parseMsg(data.decode())
-
-            with lock:
-                if isAck:
-                    shared_data.clients[value].socket = client_socket
-                    name = value
-                else:
-                    round = shared_data.getCurrentRound()
-                    round.updateMove(name, value)
-                    shared_data.roundStatus[name] = True
-                    _event.set()
-        except TimeoutError:
-            NotImplemented
-        except OSError as e:
-            logger.error(e)
-            break
-    client_socket.close()
-
-
-def monitor_connection_events(server_socket, _event):
+def monitor_connection_events(server_socket):
     # This is a thread function which monitors the connection events for the clients
     # and stores the handlers while starting separate thread per client to monitor
     # data reception and transmission events.
@@ -89,13 +46,13 @@ def monitor_connection_events(server_socket, _event):
 
             # Start a new thread to handle each client
             client_thread = threading.Thread(
-                target=handle_client, args=(client_socket, client_addr, _event))
+                target=ClientTask.handle_connection, args=(client_socket, client_addr, lock, shared_data, event, logger))
             client_thread.start()
             clientCount += 1
             if clientCount == 2:
                 with lock:
                     shared_data.state = State.StartGame
-                _event.set()
+                event.set()
                 sleep(1)
                 # TODO: Wait hear for the connection of both sides
                 logger.debug(f'Closing Monitor')
@@ -105,7 +62,7 @@ def monitor_connection_events(server_socket, _event):
 
 
 class GameCore:
-    def __init__(self) -> None:
+    def __init__(self, game_logic: IGameLogic) -> None:
         self._socket = None
         self._numOfClients = 2
         self._timeout = 1
@@ -113,8 +70,9 @@ class GameCore:
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         setup_logger()
         logger.debug("Init done")
+        self.game_logic = game_logic
 
-    def _startServer(self):
+    def __startServer(self):
         # Connects to socket and return true. return false in case of error
         try:
             self._socket.bind(('localhost', self._port))
@@ -124,7 +82,7 @@ class GameCore:
 
             # Start thread to monitor client connections
             self.monitorConnection = threading.Thread(
-                target=monitor_connection_events, args=(self._socket, event))
+                target=monitor_connection_events, args=(self._socket,))
             with lock:
                 shared_data.isConnectionMonitor = True
             self.monitorConnection.start()
@@ -133,12 +91,12 @@ class GameCore:
             logger.error('Server connection error')
         return False
 
-    def _stopServer(self):
+    def __stopServer(self):
         # here we want to close all the open connection and threads
         self._socket.close()
         logger.info("Server stopped.")
 
-    def _stateMachine(self, client1_dir, client2_dir):
+    def __stateMachine(self, client1_dir, client2_dir):
         with lock:
             shared_data.state = State.StartPlayer
             state = shared_data.state
@@ -177,7 +135,7 @@ class GameCore:
                             value.startApp(logger)
                     state = State.Idle
 
-                # TODO: check if we can move the logic of following files to some other class
+                # TODO: check if we can move the logic of following lines to some other class
                 case State.StartGame:
                     logger.debug(f'Entered state: StartGame')
                     with lock:
@@ -213,7 +171,10 @@ class GameCore:
                     logger.debug(f'Entered state: CalculateResults')
                     for key, value in shared_data.clients.items():
                         value.sendCommand('end')
-                    # TODO: Calculate final results.
+                    if self.game_logic:
+                        with lock:
+                            self.game_logic.calculate_result(
+                                shared_data.rounds)
                     state = State.End
 
                 case State.End:
@@ -226,14 +187,14 @@ class GameCore:
 
     def execute(self, client1_dir, client2_dir):
         logger.debug(f'Started execution')
-        result = self._startServer()
+        result = self.__startServer()
 
         if result:
             # Init complete now start normal operations.
-            self._stateMachine(client1_dir, client2_dir)
+            self.__stateMachine(client1_dir, client2_dir)
         else:
             return False
 
         # Game complete
-        self._stopServer()
+        self.__stopServer()
         return True

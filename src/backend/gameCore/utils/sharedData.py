@@ -42,6 +42,7 @@ class SharedData:
     def getLastRound(self):
         return self.rounds[self.roundNumber-1]
 
+# rounds is a dict
 # roundNumber:GameRound
 # 1:{P1:gameRound, P2:gameRound}
 # 2:{P1:gameRound, P2:gameRound}
