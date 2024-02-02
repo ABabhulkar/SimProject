@@ -1,4 +1,5 @@
-from utils.gameRound import GameRound
+
+from gameCore.utils.gameRound import GameRound
 
 
 class State:
