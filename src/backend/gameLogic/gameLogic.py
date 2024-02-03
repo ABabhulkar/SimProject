@@ -20,5 +20,8 @@ class GameLogic(IGameLogic):
     def calculate_result(self, rounds: dict) -> None:
         logger.debug('calculate result')
 
-    def get_file_names(self):
-        NotImplemented
+    def get_file_names(self) -> list:
+        # TODO: This function will read the folder specified and create list of valid file paths
+        algoList = ['/mnt/d/Projects/PythonWS/SimProject/ClientTemplate/src/clientApp.py',
+                    '/mnt/d/Projects/PythonWS/SimProject/ClientTemplate/src/clientApp.py']
+        return algoList

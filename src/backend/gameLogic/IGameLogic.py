@@ -7,7 +7,7 @@ class IGameLogic:
         """
         raise NotImplementedError("calculate_result not implemented")
 
-    def get_file_names(self):
+    def get_file_names(self) -> list:
         """This function should return the names of files present at destination directory
         """
         raise NotImplementedError("get_file_names not implemented")

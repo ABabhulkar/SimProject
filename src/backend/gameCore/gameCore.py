@@ -8,8 +8,8 @@ from gameCore.clientTask import ClientTask
 from gameCore.utils.sharedData import SharedData, State
 from gameLogic.IGameLogic import IGameLogic
 
+PLAYER0 = 'P0'
 PLAYER1 = 'P1'
-PLAYER2 = 'P2'
 
 # Create an instance of SharedData
 shared_data = SharedData()
@@ -96,7 +96,37 @@ class GameCore:
         self._socket.close()
         logger.info("Server stopped.")
 
-    def __stateMachine(self, client1_dir, client2_dir):
+    def __startPlayers(self) -> bool:
+        logger.debug(f'Entered state: StartPlayer')
+        algo_list = self.game_logic.get_file_names()
+
+        if len(algo_list) == 2:
+            clients = {}
+            for index, item in enumerate(algo_list):
+                player = ClientTask(index, item)
+                clients[player.name] = player
+
+            with lock:
+                shared_data.clients = clients
+
+            for key, value in clients.items():
+                logger.debug(f'Start Player: {key}')
+                value.startApp(logger)
+
+        # with lock:
+        #     if client1_dir is not None:
+        #         P1 = ClientTask(PLAYER0, client1_dir)
+        #         shared_data.clients[P1.name] = P1
+        #     if client2_dir is not None:
+        #         P2 = ClientTask(PLAYER1, client2_dir)
+        #         shared_data.clients[P2.name] = P2
+
+        #     # Iterating over player to start processes
+        #     for key, value in shared_data.clients.items():
+        #         logger.debug(f"Start player: {key}")
+        #         value.startApp(logger)
+
+    def __stateMachine(self):
         with lock:
             shared_data.state = State.StartPlayer
             state = shared_data.state
@@ -109,9 +139,9 @@ class GameCore:
                             # l = shared_data.roundStatus.values()
                             # if all(val == True for val in l) and len(l) != 0:
                             #     state = State.NextRound
-                            if shared_data.roundStatus.get(PLAYER1, False) and shared_data.roundStatus.get(PLAYER2, False):
+                            if shared_data.roundStatus.get(PLAYER0, False) and shared_data.roundStatus.get(PLAYER1, False):
                                 state = State.NextRound
-                            elif shared_data.roundStatus.get(PLAYER1, False) and not shared_data.roundStatus.get(PLAYER2, True):
+                            elif shared_data.roundStatus.get(PLAYER0, False) and not shared_data.roundStatus.get(PLAYER1, True):
                                 state = State.ForwardMsg
                             else:
                                 state = shared_data.state
@@ -120,19 +150,7 @@ class GameCore:
                             event.clear()
 
                 case State.StartPlayer:
-                    logger.debug(f'Entered state: StartPlayer')
-                    with lock:
-                        if client1_dir is not None:
-                            P1 = ClientTask(PLAYER1, client1_dir)
-                            shared_data.clients[P1.name] = P1
-                        if client2_dir is not None:
-                            P2 = ClientTask(PLAYER2, client2_dir)
-                            shared_data.clients[P2.name] = P2
-
-                        # Iterating over player to start processes
-                        for key, value in shared_data.clients.items():
-                            logger.debug(f"Start player: {key}")
-                            value.startApp(logger)
+                    self.__startPlayers()
                     state = State.Idle
 
                 # TODO: check if we can move the logic of following lines to some other class
@@ -140,58 +158,55 @@ class GameCore:
                     logger.debug(f'Entered state: StartGame')
                     with lock:
                         shared_data.maxNumberOfRounds = 10
+                        shared_data.roundStatus[PLAYER0] = False
                         shared_data.roundStatus[PLAYER1] = False
-                        shared_data.roundStatus[PLAYER2] = False
-                        result = shared_data.nextRound(PLAYER1, PLAYER2)
+                        result = shared_data.nextRound(PLAYER0, PLAYER1)
                         if result:
-                            shared_data.clients[PLAYER1].sendCommand('start')
+                            shared_data.clients[PLAYER0].sendCommand('start')
                             state = State.Idle
 
                 case State.NextRound:
                     logger.debug(f'Entered state: NextRound')
                     with lock:
+                        shared_data.roundStatus[PLAYER0] = False
                         shared_data.roundStatus[PLAYER1] = False
-                        shared_data.roundStatus[PLAYER2] = False
-                        result = shared_data.nextRound(PLAYER1, PLAYER2)
+                        result = shared_data.nextRound(PLAYER0, PLAYER1)
                         if result:
-                            shared_data.clients[PLAYER1].forwardMove(
-                                shared_data.getLastRound().getMove(PLAYER2))
+                            shared_data.clients[PLAYER0].forwardMove(
+                                shared_data.getLastRound().getMove(PLAYER1))
                             state = State.Idle
                         else:
-                            state = State.CalculateResults
+                            state = State.StopPlayers
 
                 case State.ForwardMsg:
                     logger.debug(f'Entered state: Forward')
                     with lock:
-                        shared_data.clients[PLAYER2].forwardMove(
-                            shared_data.getCurrentRound().getMove(PLAYER1))
+                        shared_data.clients[PLAYER1].forwardMove(
+                            shared_data.getCurrentRound().getMove(PLAYER0))
                         state = State.Idle
+
+                case State.StopPlayers:
+                    # Iterating over player to start processes
+                    for key, value in shared_data.clients.items():
+                        value.sendCommand('end')
+                    logger.info(f'Entered state: StopPlayers')
+                    state = State.CalculateResults
 
                 case State.CalculateResults:
                     logger.debug(f'Entered state: CalculateResults')
-                    for key, value in shared_data.clients.items():
-                        value.sendCommand('end')
                     if self.game_logic:
                         with lock:
                             self.game_logic.calculate_result(
                                 shared_data.rounds)
-                    state = State.End
-
-                case State.End:
-                    # Iterating over player to start processes
-                    for key, value in shared_data.clients.items():
-                        # value.socket.close()
-                        NotImplemented
-                    logger.error(f'Entered state: End')
                     break
 
-    def execute(self, client1_dir, client2_dir):
+    def execute(self):
         logger.debug(f'Started execution')
         result = self.__startServer()
 
         if result:
             # Init complete now start normal operations.
-            self.__stateMachine(client1_dir, client2_dir)
+            self.__stateMachine()
         else:
             return False
 

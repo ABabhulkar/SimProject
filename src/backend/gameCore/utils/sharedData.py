@@ -7,7 +7,7 @@ class State:
     StartPlayer = 2
     StartGame = 3
     CalculateResults = 4
-    End = 5
+    StopPlayers = 5
     NextRound = 6
     ForwardMsg = 7
 

@@ -3,8 +3,8 @@ import subprocess
 
 
 class ClientTask:
-    def __init__(self, name, dir) -> None:
-        self.name = name
+    def __init__(self, index: int, dir: str) -> None:
+        self.name = f'P{index}'
         self.dir = dir
         self.socket = None
         self.startHandler = False
