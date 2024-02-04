@@ -113,19 +113,6 @@ class GameCore:
                 logger.debug(f'Start Player: {key}')
                 value.startApp(logger)
 
-        # with lock:
-        #     if client1_dir is not None:
-        #         P1 = ClientTask(PLAYER0, client1_dir)
-        #         shared_data.clients[P1.name] = P1
-        #     if client2_dir is not None:
-        #         P2 = ClientTask(PLAYER1, client2_dir)
-        #         shared_data.clients[P2.name] = P2
-
-        #     # Iterating over player to start processes
-        #     for key, value in shared_data.clients.items():
-        #         logger.debug(f"Start player: {key}")
-        #         value.startApp(logger)
-
     def __stateMachine(self):
         with lock:
             shared_data.state = State.StartPlayer
@@ -157,7 +144,7 @@ class GameCore:
                 case State.StartGame:
                     logger.debug(f'Entered state: StartGame')
                     with lock:
-                        shared_data.maxNumberOfRounds = 10
+                        shared_data.maxNumberOfRounds = self.game_logic.get_rounds_num()
                         shared_data.roundStatus[PLAYER0] = False
                         shared_data.roundStatus[PLAYER1] = False
                         result = shared_data.nextRound(PLAYER0, PLAYER1)

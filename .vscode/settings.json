@@ -1,5 +1,11 @@
 {
     "python.analysis.extraPaths": [
-        "./src"
-    ]
+        "./src",
+        "./src/backend",
+        "./src/backend/gameCore"
+    ],
+    "python.analysis.autoFormatStrings": true,
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.wordWrap": "on",
+    "editor.wordWrapColumn": 100
 }
