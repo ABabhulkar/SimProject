@@ -8,16 +8,23 @@ logger = logging.getLogger(" game_logic ")
 
 
 def setup_logger():
+    """logger for gameLogic
+    """
     logging.basicConfig()
     logger.setLevel(logging.DEBUG)
 
 
 class GameLogic(IGameLogic):
+    """Game logic implementation
+
+    Args:
+        IGameLogic (Interface): Interface for the game logic api
+    """
 
     def __init__(self) -> None:
         super().__init__()
         setup_logger()
-        self.maxNumOfRounds = 0
+        self.max_num_of_rounds = 0
 
     def process_rounds(self, rounds_json):
         """
@@ -56,6 +63,11 @@ class GameLogic(IGameLogic):
         return processed_data, {"P0": total_score_p1, "P1": total_score_p2}
 
     def calculate_result(self, rounds_json: json) -> None:
+        """Sames the results in DB and calculates final score for the game
+
+        Args:
+            rounds_json (json): dict of moves by all players
+        """
         logger.debug('calculate result')
         logger.debug(rounds_json)
         data = json.loads(rounds_json)
@@ -72,4 +84,9 @@ class GameLogic(IGameLogic):
         return algoList
 
     def get_rounds_num(self) -> int:
-        return self.maxNumOfRounds
+        """Getter for number of rounds
+
+        Returns:
+            int: max number of rounds set for this game
+        """
+        return self.max_num_of_rounds

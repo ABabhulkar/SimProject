@@ -5,7 +5,7 @@ from ...gameCore.utils.gameRound import GameRound
 class State:
     Idle = 1
     StartPlayer = 2
-    StartGame = 3
+    start_game = 3
     CalculateResults = 4
     StopPlayers = 5
     NextRound = 6

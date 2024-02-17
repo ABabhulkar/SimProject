@@ -3,21 +3,25 @@ import subprocess
 
 
 class ClientTask:
-    def __init__(self, index: int, dir: str) -> None:
+    def __init__(self, index: int, path: str) -> None:
         self.name = f'P{index}'
-        self.dir = dir
+        self.path = path
         self.socket = None
         self.startHandler = False
 
     def startApp(self, logger):
-        # This function should start the application with proper arguments
-        if not os.path.isfile(self.dir):
+        """This function should start the application with proper arguments
+
+        Args:
+            logger (_type_): Logger of context
+        """
+        if not os.path.isfile(self.path):
             logger.info("Folder path does not exist.")
             return
 
         arguments = [self.name]  # Replace with your actual arguments
         # TODO: python should be removed as we will accept binary
-        command = ['python3', self.dir] + arguments
+        command = ['python3', self.path] + arguments
         subprocess.Popen(command, stdout=subprocess.PIPE)
         logger.debug(f'command: {command}')
 
@@ -40,7 +44,7 @@ class ClientTask:
                     break
                 _logger.debug(f"{client_addr[1]} {name}-> {data.decode()}")
 
-                value, isAck = ClientTask.parseMsg(data.decode())
+                value, isAck = ClientTask.parse_msg(data.decode())
 
                 with _lock:
                     if isAck:
@@ -59,9 +63,17 @@ class ClientTask:
         client_socket.close()
 
     @staticmethod
-    def parseMsg(line):
-        # it returns the name if received connected
-        # it returns move otherwise
+    def parse_msg(line):
+        """
+        It returns the name if received connected
+        It returns move otherwise
+
+        Args:
+            line (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         parts = line.strip().split(':')
         if len(parts) == 2:
             key, value = parts[0], parts[1]

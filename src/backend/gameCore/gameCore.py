@@ -26,37 +26,46 @@ logger = logging.getLogger(" game_core ")
 
 
 def setup_logger():
+    """Logger for game core context
+    """
     logging.basicConfig()
     logger.setLevel(logging.DEBUG)
 
 
 def monitor_connection_events(server_socket):
-    # This is a thread function which monitors the connection events for the clients
-    # and stores the handlers while starting separate thread per client to monitor
-    # data reception and transmission events.
+    """
+    This is a thread function which monitors the connection events for the clients
+    and stores the handlers while starting separate thread per client to monitor
+    data reception and transmission events.
+
+    Args:
+        server_socket (_type_): _description_
+    """
+
     server_socket.settimeout(5)
-    clientCount = 0
+    client_count = 0
     while True:
         with lock:
             if not shared_data.isConnectionMonitor:
                 break
         try:
-            logger.debug(f'Monitoring for Client {clientCount}')
+            logger.debug('Monitoring for Client %d', client_count)
             client_socket, client_addr = server_socket.accept()
-            logger.info(f"Connected to {client_addr}")
+            logger.info("Connected to %s", client_addr)
 
             # Start a new thread to handle each client
             client_thread = threading.Thread(
-                target=ClientTask.handle_connection, args=(client_socket, client_addr, lock, shared_data, event, logger))
+                target=ClientTask.handle_connection,
+                args=(client_socket, client_addr, lock, shared_data, event, logger))
             client_thread.start()
-            clientCount += 1
-            if clientCount == 2:
+            client_count += 1
+            if client_count == 2:
                 with lock:
-                    shared_data.state = State.StartGame
+                    shared_data.state = State.start_game
                 event.set()
+
                 sleep(1)
-                # TODO: Wait hear for the connection of both sides
-                logger.debug(f'Closing Monitor')
+                logger.debug('Closing Monitor')
                 break
         except TimeoutError:
             logger.error('Server connection timeout')
@@ -91,7 +100,7 @@ class GameCore:
             self.monitorConnection.start()
             return True
         except socket.error as e:
-            logger.error('Server connection error')
+            logger.error('Server connection error: %s', e)
         return False
 
     def __stopServer(self):
@@ -100,7 +109,7 @@ class GameCore:
         logger.info("Server stopped.")
 
     def __startPlayers(self) -> bool:
-        logger.debug(f'Entered state: StartPlayer')
+        logger.debug('Entered state: StartPlayer')
         algo_list = self.game_logic.get_file_names()
 
         if len(algo_list) == 2:
@@ -113,7 +122,7 @@ class GameCore:
                 shared_data.clients = clients
 
             for key, value in clients.items():
-                logger.debug(f'Start Player: {key}')
+                logger.debug('Start Player: %s', key)
                 value.startApp(logger)
 
     def __stateMachine(self):
@@ -144,8 +153,8 @@ class GameCore:
                     state = State.Idle
 
                 # TODO: check if we can move the logic of following lines to some other class
-                case State.StartGame:
-                    logger.debug(f'Entered state: StartGame')
+                case State.start_game:
+                    logger.debug('Entered state: start_game')
                     with lock:
                         shared_data.maxNumberOfRounds = self.game_logic.get_rounds_num()
                         shared_data.roundStatus[PLAYER0] = False
@@ -156,7 +165,7 @@ class GameCore:
                             state = State.Idle
 
                 case State.NextRound:
-                    logger.debug(f'Entered state: NextRound')
+                    logger.debug('Entered state: NextRound')
                     with lock:
                         shared_data.roundStatus[PLAYER0] = False
                         shared_data.roundStatus[PLAYER1] = False
@@ -169,7 +178,7 @@ class GameCore:
                             state = State.StopPlayers
 
                 case State.ForwardMsg:
-                    logger.debug(f'Entered state: Forward')
+                    logger.debug('Entered state: Forward')
                     with lock:
                         shared_data.clients[PLAYER1].forwardMove(
                             shared_data.getCurrentRound().getMove(PLAYER0))
@@ -179,11 +188,11 @@ class GameCore:
                     # Iterating over player to start processes
                     for key, value in shared_data.clients.items():
                         value.sendCommand('end')
-                    logger.info(f'Entered state: StopPlayers')
+                    logger.info('Entered state: StopPlayers')
                     state = State.CalculateResults
 
                 case State.CalculateResults:
-                    logger.debug(f'Entered state: CalculateResults')
+                    logger.debug('Entered state: CalculateResults')
                     if self.game_logic:
                         with lock:
                             json_s = json.dumps(
@@ -193,7 +202,12 @@ class GameCore:
                     break
 
     def execute(self):
-        logger.debug(f'Started execution')
+        """Execute the game
+
+        Returns:
+            bool: true on success, false otherwise
+        """
+        logger.debug('Started execution')
         result = self.__startServer()
 
         if result:
