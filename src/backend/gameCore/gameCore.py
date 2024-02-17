@@ -1,12 +1,13 @@
+import json
 import logging
 import socket
 import threading
 from time import sleep
 from typing import Callable
 
-from gameCore.clientTask import ClientTask
-from gameCore.utils.sharedData import SharedData, State
-from gameLogic.IGameLogic import IGameLogic
+from backend.gameCore.clientTask import ClientTask
+from backend.gameCore.utils.sharedData import SharedData, State
+from backend.gameLogic.IGameLogic import IGameLogic
 
 PLAYER0 = 'P0'
 PLAYER1 = 'P1'
@@ -69,8 +70,10 @@ class GameCore:
         self._port = 5002
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         setup_logger()
-        logger.debug("Init done")
         self.game_logic = game_logic
+        with lock:
+            shared_data.init_data()
+        logger.debug("Init done")
 
     def __startServer(self):
         # Connects to socket and return true. return false in case of error
@@ -183,8 +186,10 @@ class GameCore:
                     logger.debug(f'Entered state: CalculateResults')
                     if self.game_logic:
                         with lock:
-                            self.game_logic.calculate_result(
-                                shared_data.rounds)
+                            json_s = json.dumps(
+                                shared_data.rounds, default=lambda o: o.__dict__())
+                            logger.debug(json_s)
+                            self.game_logic.calculate_result(json_s)
                     break
 
     def execute(self):

@@ -1,8 +1,11 @@
+import json
+
+
 class IGameLogic:
     def __init__(self) -> None:
         pass
 
-    def calculate_result(self, rounds: dict) -> None:
+    def calculate_result(self, rounds: json) -> None:
         """This function should calculate the result of the game
         """
         raise NotImplementedError("calculate_result not implemented")

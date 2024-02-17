@@ -1,15 +1,15 @@
 from time import sleep
-from gameCore.gameCore import GameCore
+from backend.gameCore.gameCore import GameCore
 
-from gameLogic.gameLogic import GameLogic
-
-
-def main():
-    # This is dir for the test application
-    gameLogic = GameLogic()
-    gameCore = GameCore(gameLogic)
-    gameCore.execute()
+from backend.gameLogic.gameLogic import GameLogic
 
 
-if __name__ == "__main__":
-    main()
+class Application:
+    def __init__(self) -> None:
+        self.gameLogic = GameLogic()
+
+    def startGame(self, num_iterations: int) -> None:
+        # This is dir for the test application
+        self.gameLogic.maxNumOfRounds = num_iterations
+        gameCore = GameCore(self.gameLogic)
+        gameCore.execute()

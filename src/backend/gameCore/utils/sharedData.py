@@ -1,5 +1,5 @@
 
-from gameCore.utils.gameRound import GameRound
+from backend.gameCore.utils.gameRound import GameRound
 
 
 class State:
@@ -23,13 +23,27 @@ class SharedData:
 
         # Variables related to game
         self.maxNumberOfRounds = 0
-        self.roundNumber = 0
+        self.roundNumber = -1
+        self.rounds = {}
+        self.roundStatus = {}
+
+    def init_data(self):
+        self.socket = None
+        self.stopFlag = False
+        self.state = State.Idle
+        self.msg = None
+        self.clients = {}
+        self.isConnectionMonitor = True
+
+        # Variables related to game
+        self.maxNumberOfRounds = 0
+        self.roundNumber = -1
         self.rounds = {}
         self.roundStatus = {}
 
     def nextRound(self, first, second):
         self.roundNumber += 1
-        if self.roundNumber == self.maxNumberOfRounds:
+        if self.roundNumber >= self.maxNumberOfRounds:
             return False
         else:
             self.rounds[self.roundNumber] = GameRound(

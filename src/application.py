@@ -1,14 +1,15 @@
 import flet as ft
 from flet import *
-from backend import application.Application
+
+from backend.application import Application
 
 
 def main(page: ft.Page):
 
     application = Application()
 
-    def on_click_start():
-        application.startGame(num_iterations.value)
+    def on_click_start(e):
+        application.startGame(int(num_iterations.value))
 
     num_iterations = ft.TextField(
         hint_text='Enter number of rounds',
