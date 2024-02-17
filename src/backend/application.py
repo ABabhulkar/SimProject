@@ -1,7 +1,7 @@
 from time import sleep
-from backend.gameCore.gameCore import GameCore
+from src.backend.gameCore.gameCore import GameCore
 
-from backend.gameLogic.gameLogic import GameLogic
+from src.backend.gameLogic.gameLogic import GameLogic
 
 
 class Application:

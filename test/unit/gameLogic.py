@@ -1,7 +1,6 @@
-import json
 import unittest
-
-from backend.gameLogic.gameLogic import GameLogic
+import json
+from src.backend.gameLogic.gameLogic import GameLogic
 
 
 class GetFileNamesTest(unittest.TestCase):
@@ -106,4 +105,4 @@ class GetFileNamesTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

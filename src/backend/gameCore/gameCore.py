@@ -5,9 +5,9 @@ import threading
 from time import sleep
 from typing import Callable
 
-from backend.gameCore.clientTask import ClientTask
-from backend.gameCore.utils.sharedData import SharedData, State
-from backend.gameLogic.IGameLogic import IGameLogic
+from ...backend.gameCore.clientTask import ClientTask
+from ...backend.gameCore.utils.sharedData import SharedData, State
+from ...backend.gameLogic.IGameLogic import IGameLogic
 
 PLAYER0 = 'P0'
 PLAYER1 = 'P1'

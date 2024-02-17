@@ -1,7 +1,7 @@
 import flet as ft
 from flet import *
 
-from backend.application import Application
+from src.backend.application import Application
 
 
 def main(page: ft.Page):
