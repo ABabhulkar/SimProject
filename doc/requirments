@@ -1,0 +1,9 @@
+- Check if file upload part works or not 
+    - If it does work then it is good that we let the user upload files.
+    - Then the user can add metadata to file and it goes into specific path.
+    - At the same time UI triggers the update in calculations for all the algos
+
+- If file upload works then I can also add the user login and admin panel
+    - Admin panel will have timeout, game config, and some other similar properties
+
+- check how to convert the flutter code into flet code.
