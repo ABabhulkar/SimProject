@@ -20,8 +20,7 @@ class ClientTask:
             return
 
         arguments = [self.name]  # Replace with your actual arguments
-        # TODO: python should be removed as we will accept binary
-        command = ['python3', self.path] + arguments
+        command = [self.path] + arguments
         subprocess.Popen(command, stdout=subprocess.PIPE)
         logger.debug(f'command: {command}')
 
