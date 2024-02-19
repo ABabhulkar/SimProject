@@ -197,7 +197,6 @@ class GameCore:
                         with lock:
                             json_s = json.dumps(
                                 shared_data.rounds, default=lambda o: o.__dict__())
-                            logger.debug(json_s)
                             self.game_logic.calculate_result(json_s)
                     break
 
