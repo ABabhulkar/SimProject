@@ -1,0 +1,52 @@
+Project SimProject {
+  database_type: 'SQLite3'
+  Note: 'This is simulator project for hackathons'
+}
+
+Enum user_role {
+    admin
+    user
+}
+
+Table user {
+    id int [pk, increment]
+    username varchar(50)
+    role user_role [not null, default: 'user']
+    email varchar [not null]
+    metadata json 
+    timestamp long [default: `now()`]
+}
+
+Table game{
+    id int [pk, increment]
+    name varchar
+    result_metric json [not null]
+    other json 
+    timestamp long [default: `now()`]
+}
+
+Table game_entries {
+    id int [pk, increment]
+    user int [ref: > user.id]
+    game int [ref: > game.id]
+    shortname varchar [not null]
+    filepath varchar [not null]
+    isvalid bool [not null, default: false]
+    timestamp long [default: `now()`]
+}
+
+Table game1_leaderboard {
+    id int [pk, increment]
+    user json [note: '{username:str}']
+    game json [note: '{name:str ,filepath:str, shortname:str}']
+    ranking int 
+    score int
+    timestamp long [default: `now()`]
+}
+
+Table game_history {
+    id int [pk, increment]
+    game int [ref: > game.id]
+    round_score json [note: '[{P1:{move:int,score:int},P2:{move:int,score:int}}]']
+    timestamp long [default: `now()`]
+}
