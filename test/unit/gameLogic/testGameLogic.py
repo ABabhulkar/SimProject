@@ -13,8 +13,8 @@ class GetFileNamesTest(unittest.TestCase):
         """Tests that the function returns the expected list of file paths."""
 
         expected_result = [
-            '/mnt/d/Projects/PythonWS/SimProject/ClientTemplate/src/clientApp.py',
-            '/mnt/d/Projects/PythonWS/SimProject/ClientTemplate/src/clientApp.py'
+            '/mnt/d/Projects/PythonWS/SimProject/test/resources/TestApp1',
+            '/mnt/d/Projects/PythonWS/SimProject/test/resources/TestApp2'
         ]
 
         # Call the function and get the result
