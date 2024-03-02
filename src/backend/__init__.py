@@ -1,1 +1,1 @@
-__all__ = ['gameCore', 'gameLogic']
+__all__ = ['gameCore', 'gameLogic', 'database']
