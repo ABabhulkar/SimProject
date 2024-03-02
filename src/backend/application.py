@@ -1,3 +1,4 @@
+import sys
 from src.backend.gameCore.gameCore import GameCore
 
 from src.backend.gameLogic.gameLogic import GameLogic
@@ -20,3 +21,10 @@ class Application:
         self.game_logic.max_num_of_rounds = num_iterations
         gameCore = GameCore(self.game_logic)
         gameCore.execute()
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        num_iterations = sys.argv[1]
+    application = Application()
+    application.start_game(int(num_iterations))
