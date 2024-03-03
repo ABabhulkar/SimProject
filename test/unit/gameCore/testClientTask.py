@@ -54,6 +54,27 @@ class TestClientTask(unittest.TestCase):
         with self.assertRaises(OSError):
             client.send_command("test command")
 
+    @patch("socket.socket.sendall")
+    def test_forwordMove_sends_data(self, mock_sendall):
+        socket = unittest.mock.MagicMock()
+        client = ClientTask(
+            index=1, path="/mnt/d/Projects/PythonWS/SimProject/test/resources/TestApp1")
+        client.socket = socket
+        client.name = 'P1'
+        client.forward_move("1")
+        mock_sendall.assert_called_with("P1:1".encode())
+
+    @patch("socket.socket.sendall")
+    def test_forwordMove_handles_socket_error(self, mock_sendall):
+        socket = unittest.mock.MagicMock()
+        socket.sendall.side_effect = OSError("Socket error")
+        client = ClientTask(
+            index=1, path="/mnt/d/Projects/PythonWS/SimProject/test/resources/TestApp1")
+        client.socket = socket
+        client.name = 'P1'
+        with self.assertRaises(OSError):
+            client.forward_move("1")
+
     def test_parse_msg_connected_message(self):
         message = "P1:connected"
         value, is_ack = ClientTask.parse_msg(message)

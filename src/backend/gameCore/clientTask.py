@@ -80,4 +80,4 @@ class ClientTask:
                 return key, True
             elif key.startswith('P'):
                 return value, False
-        return None
+        return None, None

@@ -61,7 +61,7 @@ def monitor_connection_events(server_socket):
             client_count += 1
             if client_count == 2:
                 with lock:
-                    shared_data.state = State.start_game
+                    shared_data.state = State.StartGame
                 event.set()
 
                 sleep(1)
@@ -153,8 +153,8 @@ class GameCore:
                     state = State.Idle
 
                 # TODO: check if we can move the logic of following lines to some other class
-                case State.start_game:
-                    logger.debug('Entered state: start_game')
+                case State.StartGame:
+                    logger.debug('Entered state: StartGame')
                     with lock:
                         shared_data.maxNumberOfRounds = self.game_logic.get_rounds_num()
                         shared_data.roundStatus[PLAYER0] = False
