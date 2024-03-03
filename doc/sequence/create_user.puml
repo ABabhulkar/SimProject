@@ -1,0 +1,23 @@
+@startuml
+participant User
+participant Server
+participant Database
+
+User->>Server: Signup Request (Username, Password, email, number)
+activate Server
+alt Valid details
+  Server->>Server: validate detials
+  activate Database
+  Server->>Database: Create User (Username, Password, email, number)
+  alt Already User
+    Database->>Server: User Found with same details
+    Server->>User: Already user (code: 2)
+  else Create user
+    Database->>Server: New user [userID]
+    Server->>User: User created (code: 1)
+  deactivate Database
+else Invalid details
+  Server->>User: Invalid details [code: 3]
+end
+deactivate Server
+@enduml
