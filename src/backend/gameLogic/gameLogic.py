@@ -1,4 +1,3 @@
-
 import json
 import logging
 import os
@@ -36,13 +35,14 @@ class GameLogic(IGameLogic):
             # TODO: Remove after dev
             self.root = '/mnt/d/Projects/PythonWS/SimProject/test/resources'
 
-    def process_rounds(self, rounds_json):
+    @staticmethod
+    def process_rounds(rounds_json):
         """
         Processes the given JSON data, updates the score for each round based on the
         provided table, and calculates the total score for P1 and P2.
 
         Args:
-            json_data: The JSON data to process.
+            rounds_json: The JSON data to process.
 
         Returns:
             A dictionary containing the updated JSON data and the total scores for P1 and P2.

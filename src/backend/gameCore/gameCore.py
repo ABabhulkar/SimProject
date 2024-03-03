@@ -123,7 +123,7 @@ class GameCore:
 
             for key, value in clients.items():
                 logger.debug('Start Player: %s', key)
-                value.startApp(logger)
+                value.start_app(logger)
 
     def __stateMachine(self):
         with lock:
@@ -159,9 +159,9 @@ class GameCore:
                         shared_data.maxNumberOfRounds = self.game_logic.get_rounds_num()
                         shared_data.roundStatus[PLAYER0] = False
                         shared_data.roundStatus[PLAYER1] = False
-                        result = shared_data.nextRound(PLAYER0, PLAYER1)
+                        result = shared_data.next_round(PLAYER0, PLAYER1)
                         if result:
-                            shared_data.clients[PLAYER0].sendCommand('start')
+                            shared_data.clients[PLAYER0].send_command('start')
                             state = State.Idle
 
                 case State.NextRound:
@@ -169,10 +169,10 @@ class GameCore:
                     with lock:
                         shared_data.roundStatus[PLAYER0] = False
                         shared_data.roundStatus[PLAYER1] = False
-                        result = shared_data.nextRound(PLAYER0, PLAYER1)
+                        result = shared_data.next_round(PLAYER0, PLAYER1)
                         if result:
-                            shared_data.clients[PLAYER0].forwardMove(
-                                shared_data.getLastRound().getMove(PLAYER1))
+                            shared_data.clients[PLAYER0].forward_move(
+                                shared_data.get_last_round().get_move(PLAYER1))
                             state = State.Idle
                         else:
                             state = State.StopPlayers
@@ -180,14 +180,14 @@ class GameCore:
                 case State.ForwardMsg:
                     logger.debug('Entered state: Forward')
                     with lock:
-                        shared_data.clients[PLAYER1].forwardMove(
-                            shared_data.getCurrentRound().getMove(PLAYER0))
+                        shared_data.clients[PLAYER1].forward_move(
+                            shared_data.get_current_round().get_move(PLAYER0))
                         state = State.Idle
 
                 case State.StopPlayers:
                     # Iterating over player to start processes
                     for key, value in shared_data.clients.items():
-                        value.sendCommand('end')
+                        value.send_command('end')
                     logger.info('Entered state: StopPlayers')
                     state = State.CalculateResults
 

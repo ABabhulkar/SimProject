@@ -9,7 +9,7 @@ class ClientTask:
         self.socket = None
         self.startHandler = False
 
-    def startApp(self, logger):
+    def start_app(self, logger):
         """This function should start the application with proper arguments
 
         Args:
@@ -24,10 +24,10 @@ class ClientTask:
         subprocess.Popen(command, stdout=subprocess.PIPE)
         logger.debug(f'command: {command}')
 
-    def sendCommand(self, command):
+    def send_command(self, command):
         self.socket.sendall(command.encode())
 
-    def forwardMove(self, move):
+    def forward_move(self, move):
         msg = f'{self.name}:{move}'
         self.socket.sendall(msg.encode())
 
@@ -50,8 +50,8 @@ class ClientTask:
                         _shared_data.clients[value].socket = client_socket
                         name = value
                     else:
-                        round = _shared_data.getCurrentRound()
-                        round.updateMove(name, value)
+                        round = _shared_data.get_current_round()
+                        round.update_move(name, value)
                         _shared_data.roundStatus[name] = True
                         _event.set()
             except TimeoutError:

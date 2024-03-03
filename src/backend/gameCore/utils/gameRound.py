@@ -10,19 +10,17 @@ class PlayerGame():
         }
 
 
-class GameRound():
+class GameRound:
     def __init__(self, first, second) -> None:
-        self.gameObject = {}
-        self.gameObject[first] = PlayerGame()
-        self.gameObject[second] = PlayerGame()
+        self.gameObject = {first: PlayerGame(), second: PlayerGame()}
 
-    def updateMove(self, player, move):
+    def update_move(self, player, move):
         self.gameObject[player].move = move
 
-    def getMove(self, player):
+    def get_move(self, player):
         return self.gameObject[player].move
 
-    def updateScore(self, player, score):
+    def update_score(self, player, score):
         self.gameObject[player].score = score
 
     def __repr__(self):

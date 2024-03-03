@@ -21,7 +21,7 @@ class TestClientTask(unittest.TestCase):
         logger = unittest.mock.Mock()
         client = ClientTask(
             index=1, path="/mnt/d/Projects/PythonWS/SimProject/test/resources/TestApp1")
-        client.startApp(logger)
+        client.start_app(logger)
         mock_popen.assert_called_with(
             ['/mnt/d/Projects/PythonWS/SimProject/test/resources/TestApp1', 'P1'], stdout=subprocess.PIPE)
         logger.debug.assert_called_with(
@@ -32,7 +32,7 @@ class TestClientTask(unittest.TestCase):
         logger = unittest.mock.Mock()
         mock_isfile.return_value = False
         client = ClientTask(index=1, path="/path/to/missing_app")
-        client.startApp(logger)
+        client.start_app(logger)
         logger.info.assert_called_with("Folder path does not exist.")
 
     @patch("socket.socket.sendall")
@@ -41,7 +41,7 @@ class TestClientTask(unittest.TestCase):
         client = ClientTask(
             index=1, path="/mnt/d/Projects/PythonWS/SimProject/test/resources/TestApp1")
         client.socket = socket
-        client.sendCommand("test command")
+        client.send_command("test command")
         mock_sendall.assert_called_with("test command".encode())
 
     @patch("socket.socket.sendall")
@@ -52,7 +52,7 @@ class TestClientTask(unittest.TestCase):
             index=1, path="/mnt/d/Projects/PythonWS/SimProject/test/resources/TestApp1")
         client.socket = socket
         with self.assertRaises(OSError):
-            client.sendCommand("test command")
+            client.send_command("test command")
 
     def test_parse_msg_connected_message(self):
         message = "P1:connected"

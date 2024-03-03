@@ -24,7 +24,8 @@ class Application:
 
 
 if __name__ == "__main__":
+    num = 2
     if len(sys.argv) > 1:
-        num_iterations = sys.argv[1]
+        num = sys.argv[1]
     application = Application()
-    application.start_game(int(num_iterations))
+    application.start_game(int(num))

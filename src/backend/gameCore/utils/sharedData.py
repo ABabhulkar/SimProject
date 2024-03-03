@@ -1,4 +1,3 @@
-
 from ...gameCore.utils.gameRound import GameRound
 
 
@@ -41,7 +40,7 @@ class SharedData:
         self.rounds = {}
         self.roundStatus = {}
 
-    def nextRound(self, first, second):
+    def next_round(self, first, second):
         self.roundNumber += 1
         if self.roundNumber >= self.maxNumberOfRounds:
             return False
@@ -50,11 +49,11 @@ class SharedData:
                 first, second)
             return True
 
-    def getCurrentRound(self):
+    def get_current_round(self):
         return self.rounds[self.roundNumber]
 
-    def getLastRound(self):
-        return self.rounds[self.roundNumber-1]
+    def get_last_round(self):
+        return self.rounds[self.roundNumber - 1]
 
 # rounds is a dict
 # roundNumber:GameRound
