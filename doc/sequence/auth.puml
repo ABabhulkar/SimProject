@@ -1,0 +1,20 @@
+@startuml
+participant User
+participant Server
+participant Database
+
+User->>Server: Login Request (Username, Password)
+activate Server
+Server->>Database: Query User (Username)
+activate Database
+alt Invalid User
+  Database->>Server: User Not Found
+  Server->>User: Login Failed (Error Code)
+else Valid User 
+  Database->>Server: User Found
+  deactivate Database
+  Server->>Server: Generate Jwt token for session
+  Server->>User: Login Successful (JWT Token) [as Cookie]
+end
+deactivate Server
+@enduml
