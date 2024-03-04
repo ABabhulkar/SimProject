@@ -9,15 +9,15 @@ alt Valid details
   Server->>Server: validate detials
   activate Database
   Server->>Database: Create User (Username, Password, email, number)
-  alt Already User
+  alt Already User [code: 3]
     Database->>Server: User Found with same details
-    Server->>User: Already user (code: 2)
-  else Create user
+    Server->>User: Already user
+  else Create user [code: 1]
     Database->>Server: New user [userID]
-    Server->>User: User created (code: 1)
+    Server->>User: User created
   deactivate Database
-else Invalid details
-  Server->>User: Invalid details [code: 3]
+else Invalid details [code: 4]
+  Server->>User: Invalid details
 end
 deactivate Server
 @enduml
