@@ -7,10 +7,10 @@ User->>Server: Login Request (Username, Password)
 activate Server
 Server->>Database: Query User (Username)
 activate Database
-alt Invalid User
+alt Invalid User [code 2]
   Database->>Server: User Not Found
-  Server->>User: Login Failed (Error Code)
-else Valid User 
+  Server->>User: Login Failed
+else Valid User [code 1]
   Database->>Server: User Found
   deactivate Database
   Server->>Server: Generate Jwt token for session
