@@ -32,7 +32,7 @@ def authenticate_user():
     username = request.json.get('username')
     password = request.json.get('password')
 
-    # TODO: Get users from database
+    # TODO sc-64: Get users from database
     user = {'username': '', 'password': ''}
     response = make_response(jsonify({'message': 'Login failed', 'code': 2}))
 
