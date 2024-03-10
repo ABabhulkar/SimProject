@@ -25,7 +25,7 @@ def token_required(f):
     return decorated
 
 
-@app.route('/auth', methods=['POST'])
+# @app.route('/auth', methods=['POST'])
 def authenticate_user():
     if request.headers['Content-Type'] != 'application/json':
         return jsonify({'error': 'Unsupported Media Type', 'code': 2}), 415
