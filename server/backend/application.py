@@ -1,7 +1,7 @@
 import sys
-from src.backend.gameCore.gameCore import GameCore
+from server import GameCore
 
-from src.backend.gameLogic.gameLogic import GameLogic
+from server import GameLogic
 
 
 class Application:

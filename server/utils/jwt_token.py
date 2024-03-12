@@ -3,7 +3,7 @@ from flask import request, jsonify
 from jwt.exceptions import DecodeError
 import jwt
 
-from .. import sk
+from src import sk
 
 
 def token_required(f):

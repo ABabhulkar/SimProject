@@ -12,7 +12,6 @@ def home():
 
 
 # Applications Routes
-from .users import routes
 
 if __name__ == "__main__":
     app.run()

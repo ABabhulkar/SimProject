@@ -14,7 +14,7 @@ def create_app(config_mode):
     return app
 
 
-__all__ = ['backend', 'controllers','users']
+__all__ = ['backend', 'controllers', 'models', 'routes']
 
 # To stop generating __py* folders in workspace
 sys.dont_write_bytecode = True
