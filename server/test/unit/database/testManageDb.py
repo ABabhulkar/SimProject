@@ -1,7 +1,6 @@
 import unittest
-import sqlite3
 import os
-from src.backend.database.manage_db import ManageDB
+from server.backend.database.manage_db import ManageDB
 
 
 class TestManageDB(unittest.TestCase):

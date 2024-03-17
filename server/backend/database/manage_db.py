@@ -1,7 +1,7 @@
 import logging
 import sqlite3
 
-from ...backend.database.query_manager import QueryManager
+from .query_manager import QueryManager
 
 # logger to log things in code
 logger = logging.getLogger(" manage_db ")

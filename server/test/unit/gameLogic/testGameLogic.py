@@ -1,6 +1,6 @@
 import unittest
 import json
-from src.backend.gameLogic.gameLogic import GameLogic
+from server.backend.gameLogic.gameLogic import GameLogic
 
 
 class GetFileNamesTest(unittest.TestCase):
@@ -13,8 +13,8 @@ class GetFileNamesTest(unittest.TestCase):
         """Tests that the function returns the expected list of file paths."""
 
         expected_result = [
-            '/mnt/d/Projects/PythonWS/SimProject/ClientTemplate/src/clientApp.py',
-            '/mnt/d/Projects/PythonWS/SimProject/ClientTemplate/src/clientApp.py'
+            '/mnt/d/Projects/PythonWS/SimProject/prisonerD/src/clientApp.py',
+            '/mnt/d/Projects/PythonWS/SimProject/prisonerD/src/clientApp.py'
         ]
 
         # Call the function and get the result
