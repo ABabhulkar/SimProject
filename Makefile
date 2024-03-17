@@ -20,7 +20,7 @@ test: ## Runs the testsuite
 	tox
 
 run: ## Runs the development server with the development config
-	flaskbb run --debugger --reload
+	flask --app .\server\app.py --debug run
 
 frontend: ## Runs the webpack server which watches for changes in flaskbb/themes/aurora
 	cd flaskbb/themes/aurora && npm run watch

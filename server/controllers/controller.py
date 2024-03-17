@@ -1,9 +1,9 @@
 import jwt
 from flask import request, jsonify, make_response
 
-from src import db
-from src import sk
-from server.models.model import User
+from .. import db
+from .. import sk
+from ..models.model import User
 
 
 class UserController:

@@ -3,7 +3,7 @@ from datetime import datetime
 from flask_validator import ValidateEmail, ValidateString
 from sqlalchemy.orm import validates
 
-from src import db  # from __init__.py
+from .. import db  # from __init__.py
 
 
 # ----------------------------------------------- #

@@ -1,7 +1,7 @@
 import sys
-from server import GameCore
+from .gameCore.gameCore import GameCore
 
-from server import GameLogic
+from .gameLogic.gameLogic import GameLogic
 
 
 class Application:

@@ -1,6 +1,6 @@
 import unittest
 import json
-from server import GameLogic
+from server.backend.gameLogic.gameLogic import GameLogic
 
 
 class GetFileNamesTest(unittest.TestCase):
