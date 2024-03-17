@@ -2,7 +2,7 @@
 import json
 import logging
 import os
-from ...backend.gameLogic.IGameLogic import IGameLogic
+from ..gameLogic.IGameLogic import IGameLogic
 
 # logger to log things in code
 logger = logging.getLogger(" game_logic ")

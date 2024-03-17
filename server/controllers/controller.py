@@ -3,7 +3,7 @@ from flask import request, jsonify, make_response
 
 from .. import db
 from .. import sk
-from .model import User
+from ..models.model import User
 
 
 class UserController:

@@ -1,5 +1,5 @@
 
-from ...gameCore.utils.gameRound import GameRound
+from .gameRound import GameRound
 
 
 class State:
