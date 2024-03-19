@@ -13,6 +13,11 @@ def create_app(config_mode):
     app.config.from_object(config[config_mode])
     return app
 
+def init_db(app):
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
+
 
 __all__ = ['backend', 'controllers', 'models', 'routes', 'test']
 

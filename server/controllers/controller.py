@@ -3,15 +3,13 @@ from flask import request, jsonify, make_response
 
 from .. import db
 from .. import sk
-from ..models.model import User
+from ..models.user import User
 
 
 class UserController:
 
     def __init__(self, app):
-        db.init_app(app)
-        with app.app_context():
-            db.create_all()
+        pass
 
     @staticmethod
     def list_all_users():
