@@ -2,11 +2,16 @@ from sqlalchemy import inspect, JSON
 from datetime import datetime
 from flask_validator import ValidateEmail, ValidateString
 from sqlalchemy.orm import validates
+from enum import Enum
 
 from .. import db  # from __init__.py
 
 
-# ----------------------------------------------- #
+class UserRole(Enum):
+    admin = 'admin'
+    user = 'user'
+
+
 class User(db.Model):
     # Auto Generated Fields:
     id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
@@ -15,7 +20,7 @@ class User(db.Model):
     username = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(20), nullable=False)
-    role = db.Column(db.String(10), default='User')
+    role = db.Column(db.String(10), default='user')
     mdeta = db.Column(JSON)
     timestamp = db.Column(db.DateTime(timezone=True), default=datetime.now)
 
