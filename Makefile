@@ -19,6 +19,9 @@ clean: ## Remove unwanted stuff such as __pycache__, etc...
 test: ## Runs the testsuite
 	tox
 
+load_data: ## Runs the development server with the development config
+	flask --app .\server\app.py load_db
+
 run: ## Runs the development server with the development config
 	flask --app .\server\app.py --debug run
 

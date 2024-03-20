@@ -16,8 +16,8 @@ class GameEntries(db.Model):
     is_valid = db.Column(db.Boolean, default=False, nullable=False)
     timestamp = db.Column(db.DateTime(timezone=True), default=datetime.now)
 
-    user = relationship("User", back_populates="game_entries")
-    game = relationship("Game", back_populates="game_entries")
+    user = relationship("User", backref="game_entries")
+    game = relationship("Game", backref="game_entries")
 
     # How to serialize SqlAlchemy SQLite Query to JSON => https://stackoverflow.com/a/46180522
     def toDict(self):
@@ -27,5 +27,5 @@ class GameEntries(db.Model):
         return "<%r>" % self.name
 
 
-User.game_entries = relationship("GameEntries", back_populates="User")
-Game.game_entries = relationship("GameEntries", back_populates="Game")
+# User.game_entries = relationship("GameEntries", back_populates="User")
+# Game.game_entries = relationship("GameEntries", back_populates="Game")
