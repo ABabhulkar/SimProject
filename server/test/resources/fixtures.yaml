@@ -1,0 +1,40 @@
+# fixtures.yaml
+- model: user.User
+  items:
+    - username: admin
+      role: admin
+      email: admin@gmail.com
+      password: abcd123
+      mdeta: {}
+    - username: user1
+      role: user
+      email: user1@gmail.com
+      password: abcd123
+      mdeta: {}
+    - username: user2
+      role: user
+      email: user2@gmail.com
+      password: abcd123
+      mdeta: {}
+
+- model: game.Game
+  items:
+    - name: Game 1
+      result_metric: {}
+      other: {}
+    - name: Game 2
+      result_metric: {}
+      other: {}
+
+- model: game_entries.GameEntries
+  items:
+    - user_id: 2
+      game_id: 1
+      shortname: Entry1
+      filepath: /path/to/entry1
+      is_valid: true
+    - user_id: 3
+      game_id: 2
+      shortname: Entry2
+      filepath: /path/to/entry2
+      is_valid: true

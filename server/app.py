@@ -1,5 +1,4 @@
 import os
-
 # App Initialization
 from . import create_app, init_db  # from __init__ file
 
@@ -15,6 +14,7 @@ def home():
 # Applications Routes
 from .routes import routes
 from .models import *
+from . import command
 
 init_db(app)
 

@@ -6,3 +6,4 @@ flask_validator
 psycopg2-binary
 python-dotenv
 pkg-resources
+PyYAML

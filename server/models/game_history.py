@@ -12,6 +12,8 @@ class GameHistory(db.Model):
     round_score = db.Column(JSON)
     timestamp = db.Column(db.DateTime(timezone=True), default=datetime.now)
 
+    game = relationship("Game", backref="game_entries1")
+
     # How to serialize SqlAlchemy SQLite Query to JSON => https://stackoverflow.com/a/46180522
     def toDict(self):
         return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
@@ -20,4 +22,4 @@ class GameHistory(db.Model):
         return "<%r>" % self.name
 
 
-Game.game_history = relationship("GameHistory", back_populates="game")
+# Game.game_history = relationship("GameHistory", back_populates="game")
