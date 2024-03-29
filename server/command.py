@@ -47,5 +47,4 @@ def load_data_from_yaml(filename):
 @app.cli.command('load_db')
 def load_command():
     """Here info that will be shown in flask --help"""
-    print("hh")
-    load_data_from_yaml("server/test/resources/fixtures.yaml")
+    load_data_from_yaml("server/test/resources/database/fixtures.yaml")

@@ -26,7 +26,8 @@ class Application:
         GameCore(self.game_logic).execute()
 
         if self.game_logic.total_scores is not None:
-            # TODO: Save the rounds in a NoSQL db
+            # data will be stored in db
+            print(self.game_logic.total_scores)
             pass
 
 

@@ -38,14 +38,11 @@ class GameLogic(IGameLogic):
 
     @staticmethod
     def __parse_result_metric(result_metric: json):
-        # Parse the JSON data
-        data = json.loads(result_metric)
-
         # Create an empty dictionary
         result_dict = {}
 
         # Iterate through the list of dictionaries in the JSON data
-        for item in data:
+        for item in result_metric:
             # Extract the key and value from the current item
             key = tuple(item['key'])  # Convert key list to tuple
             value = item['value']
@@ -75,7 +72,7 @@ class GameLogic(IGameLogic):
             p1_move = processed_data[round_id]["gameRound"]["P0"]["move"]
             p2_move = processed_data[round_id]["gameRound"]["P1"]["move"]
 
-            p1_score, p2_score = self.__parse_result_metric(rounds_json)[(p1_move, p2_move)]
+            p1_score, p2_score = self.__parse_result_metric(self.result_metric)[(p1_move, p2_move)]
             processed_data[round_id]["gameRound"]["P0"]["score"] = p1_score
             processed_data[round_id]["gameRound"]["P1"]["score"] = p2_score
             total_score_p1 += p1_score
@@ -92,9 +89,9 @@ class GameLogic(IGameLogic):
         """
         logger.debug('calculate result')
         data = json.loads(rounds_json)
-        _, self.total_scores = self.__process_rounds(data)
-
-        logger.info(f'Scores:{self.total_scores}')
+        _, total_scores = self.__process_rounds(data)
+        self.total_scores = total_scores
+        logger.debug(f'Scores:{total_scores}')
 
     def get_file_names(self) -> list:
         """

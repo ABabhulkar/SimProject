@@ -13,7 +13,7 @@ class GetFileNamesTest(unittest.TestCase):
     def __init__(self, method_name: str = "runTest") -> None:
         super().__init__(method_name)
         # Create an instance of the class containing the function
-        self.gameLogic = GameLogic(result_metric=valid_json,
+        self.gameLogic = GameLogic(result_metric=json.loads(valid_json),
                                    root_path='server\\test\\resources\\game_files\\')  # Replace 'MyClass' with the actual class name
 
     def test_get_file_names(self):
@@ -113,21 +113,29 @@ class GetFileNamesTest(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.gameLogic.calculate_result(invalid_data)
 
+    def test_calculate_result(self):
+        """
+        Tests if the function raises an error for invalid move combinations.
+        """
+        valid_data   = '''{"1": {"gameRound": {"P0": {"move": 0, "score": 0}, "P1": {"move": 0, "score": 0}}}, "2": {"gameRound": {"P0": {"move": 1, "score": 0}, "P1": {"move": 0, "score": 0}}}}'''
+        self.gameLogic.calculate_result(valid_data)
+
     def test_valid_json(self):
         expected_result = {(0, 0): [3, 3],
                            (0, 1): [0, 5],
                            (1, 0): [5, 0],
                            (1, 1): [1, 1]}
 
-        result = self.gameLogic._GameLogic__parse_result_metric(valid_json)
+        j = json.loads(valid_json)
+        result = self.gameLogic._GameLogic__parse_result_metric(j)
         self.assertEqual(result, expected_result)
 
     def test_empty_json(self):
         empty_json = '[]'
         expected_result = {}
 
-        result = self.gameLogic._GameLogic__parse_result_metric(empty_json)
-
+        j = json.loads(empty_json)
+        result = self.gameLogic._GameLogic__parse_result_metric(j)
         self.assertEqual(result, expected_result)
 
 
