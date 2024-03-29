@@ -2,12 +2,19 @@ import unittest
 import json
 from server.backend.gameLogic.gameLogic import GameLogic
 
+valid_json = '''[{"key":[0,0],"value":[3,3]},
+                 {"key":[0,1],"value":[0,5]},
+                 {"key":[1,0],"value":[5,0]},
+                 
+                 {"key":[1,1],"value":[1,1]}]'''
+
 
 class GetFileNamesTest(unittest.TestCase):
     def __init__(self, methodName: str = "runTest") -> None:
         super().__init__(methodName)
         # Create an instance of the class containing the function
-        self.gameLogic = GameLogic('server\\test\\resources\\game_files\\')  # Replace 'MyClass' with the actual class name
+        self.gameLogic = GameLogic(result_metric=valid_json,
+                                   root_path='server\\test\\resources\\game_files\\')  # Replace 'MyClass' with the actual class name
 
     def test_get_file_names(self):
         """Tests that the function returns the expected list of file paths."""
@@ -105,6 +112,20 @@ class GetFileNamesTest(unittest.TestCase):
         invalid_data = '''{"0": {"gameRound": {"P0": {"move": "0", "score": 0}, "P1": {"move": "1", "score": 0}}}, "1": {"gameRound": {"P0": {"move": "1", "score": 0}, "P1": {"move": "1", "score": 0}}}}'''
         with self.assertRaises(KeyError):
             self.gameLogic.calculate_result(invalid_data)
+
+    def test_valid_json(self):
+        expected_result = {(0, 0): [3, 3], (0, 1): [0, 5], (1, 0): [5, 0], (1, 1): [1, 1]}
+
+        result = self.gameLogic._GameLogic__parse_result_metric(valid_json)
+        self.assertEqual(result, expected_result)
+
+    def test_empty_json(self):
+        empty_json = '[]'
+        expected_result = {}
+
+        result = self.gameLogic._GameLogic__parse_result_metric(empty_json)
+
+        self.assertEqual(result, expected_result)
 
 
 if __name__ == '__main__':

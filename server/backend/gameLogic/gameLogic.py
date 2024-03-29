@@ -22,7 +22,7 @@ class GameLogic(IGameLogic):
         IGameLogic (Interface): Interface for the game logic api
     """
 
-    def __init__(self, root_path=None) -> None:
+    def __init__(self, result_metric: json, root_path=None) -> None:
         """
         Args:
             root_path: The path to the directory to search for executable files. Defaults to None.
@@ -31,8 +31,27 @@ class GameLogic(IGameLogic):
         setup_logger()
         self.max_num_of_rounds = 0
         self.root = root_path
+        self.result_metric = result_metric
         if root_path is None:
             self.root = os.getcwd()
+
+    def __parse_result_metric(self, result_metric: json):
+        # Parse the JSON data
+        data = json.loads(result_metric)
+
+        # Create an empty dictionary
+        result_dict = {}
+
+        # Iterate through the list of dictionaries in the JSON data
+        for item in data:
+            # Extract the key and value from the current item
+            key = tuple(item['key'])  # Convert key list to tuple
+            value = item['value']
+
+            # Add the key-value pair to the dictionary
+            result_dict[key] = value
+
+        return result_dict
 
     def process_rounds(self, rounds_json):
         """
@@ -40,7 +59,7 @@ class GameLogic(IGameLogic):
         provided table, and calculates the total score for P1 and P2.
 
         Args:
-            json_data: The JSON data to process.
+            rounds_json: The JSON data to process.
 
         Returns:
             A dictionary containing the updated JSON data and the total scores for P1 and P2.
