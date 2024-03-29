@@ -10,8 +10,8 @@ valid_json = '''[{"key":[0,0],"value":[3,3]},
 
 
 class GetFileNamesTest(unittest.TestCase):
-    def __init__(self, methodName: str = "runTest") -> None:
-        super().__init__(methodName)
+    def __init__(self, method_name: str = "runTest") -> None:
+        super().__init__(method_name)
         # Create an instance of the class containing the function
         self.gameLogic = GameLogic(result_metric=valid_json,
                                    root_path='server\\test\\resources\\game_files\\')  # Replace 'MyClass' with the actual class name
@@ -38,7 +38,7 @@ class GetFileNamesTest(unittest.TestCase):
         Tests if the function returns empty dictionaries for empty input data.
         """
         empty_data = {}
-        processed_data, total_scores = self.gameLogic.process_rounds(
+        processed_data, total_scores = self.gameLogic._GameLogic__process_rounds(
             empty_data)
         self.assertEqual(processed_data, {})
         self.assertEqual(total_scores, {"P0": 0, "P1": 0})
@@ -76,7 +76,7 @@ class GetFileNamesTest(unittest.TestCase):
             }
         }
         expected_total_scores = {"P0": 8, "P1": 3}
-        processed_data, total_scores = self.gameLogic.process_rounds(
+        processed_data, total_scores = self.gameLogic._GameLogic__process_rounds(
             valid_data)
         self.assertEqual(processed_data, expected_processed_data)
         self.assertEqual(total_scores, expected_total_scores)
@@ -94,7 +94,7 @@ class GetFileNamesTest(unittest.TestCase):
             }
         }
         with self.assertRaises(KeyError):
-            self.gameLogic.process_rounds(invalid_data)
+            self.gameLogic._GameLogic__process_rounds(invalid_data)
 
     def test_invalid_move_combination1(self):
         """
@@ -103,7 +103,7 @@ class GetFileNamesTest(unittest.TestCase):
         invalid_data = '''{"0": {"gameRound": {"P0": {"move": "0", "score": 0}, "P1": {"move": "1", "score": 0}}}, "1": {"gameRound": {"P0": {"move": "1", "score": 0}, "P1": {"move": "1", "score": 0}}}}'''
 
         with self.assertRaises(KeyError):
-            self.gameLogic.process_rounds(json.loads(invalid_data))
+            self.gameLogic._GameLogic__process_rounds(json.loads(invalid_data))
 
     def test_calculate_result(self):
         """
@@ -114,7 +114,10 @@ class GetFileNamesTest(unittest.TestCase):
             self.gameLogic.calculate_result(invalid_data)
 
     def test_valid_json(self):
-        expected_result = {(0, 0): [3, 3], (0, 1): [0, 5], (1, 0): [5, 0], (1, 1): [1, 1]}
+        expected_result = {(0, 0): [3, 3],
+                           (0, 1): [0, 5],
+                           (1, 0): [5, 0],
+                           (1, 1): [1, 1]}
 
         result = self.gameLogic._GameLogic__parse_result_metric(valid_json)
         self.assertEqual(result, expected_result)

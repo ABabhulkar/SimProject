@@ -32,10 +32,12 @@ class GameLogic(IGameLogic):
         self.max_num_of_rounds = 0
         self.root = root_path
         self.result_metric = result_metric
+        self.total_scores = None
         if root_path is None:
             self.root = os.getcwd()
 
-    def __parse_result_metric(self, result_metric: json):
+    @staticmethod
+    def __parse_result_metric(result_metric: json):
         # Parse the JSON data
         data = json.loads(result_metric)
 
@@ -53,7 +55,7 @@ class GameLogic(IGameLogic):
 
         return result_dict
 
-    def process_rounds(self, rounds_json):
+    def __process_rounds(self, rounds_json):
         """
         Processes the given JSON data, updates the score for each round based on the
         provided table, and calculates the total score for P1 and P2.
@@ -64,15 +66,6 @@ class GameLogic(IGameLogic):
         Returns:
             A dictionary containing the updated JSON data and the total scores for P1 and P2.
         """
-
-        # TODO: Read this table from db
-        score_table = {
-            (0, 0): (3, 3),
-            (0, 1): (0, 5),
-            (1, 0): (5, 0),
-            (1, 1): (1, 1),
-        }
-
         processed_data = {}
         total_score_p1 = 0
         total_score_p2 = 0
@@ -82,7 +75,7 @@ class GameLogic(IGameLogic):
             p1_move = processed_data[round_id]["gameRound"]["P0"]["move"]
             p2_move = processed_data[round_id]["gameRound"]["P1"]["move"]
 
-            p1_score, p2_score = score_table[(p1_move, p2_move)]
+            p1_score, p2_score = self.__parse_result_metric(rounds_json)[(p1_move, p2_move)]
             processed_data[round_id]["gameRound"]["P0"]["score"] = p1_score
             processed_data[round_id]["gameRound"]["P1"]["score"] = p2_score
             total_score_p1 += p1_score
@@ -99,10 +92,9 @@ class GameLogic(IGameLogic):
         """
         logger.debug('calculate result')
         data = json.loads(rounds_json)
-        _, total_scores = self.process_rounds(data)
+        _, self.total_scores = self.__process_rounds(data)
 
-        # TODO: Save the rounds in a NoSQL db
-        logger.info(f'Scores:{total_scores}')
+        logger.info(f'Scores:{self.total_scores}')
 
     def get_file_names(self) -> list:
         """

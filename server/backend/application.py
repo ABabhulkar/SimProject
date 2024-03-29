@@ -9,7 +9,9 @@ class Application:
     """
 
     def __init__(self, root_path) -> None:
-        self.game_logic = GameLogic(root_path)
+        # TODO read this value from db
+        r = {}
+        self.game_logic = GameLogic(result_metric=r, root_path=root_path)
 
     def start_game(self, num_iterations: int) -> None:
         """
@@ -19,8 +21,13 @@ class Application:
             num_iterations (int): _description_
         """
         self.game_logic.max_num_of_rounds = num_iterations
-        gameCore = GameCore(self.game_logic)
-        gameCore.execute()
+
+        # Run for selected game
+        GameCore(self.game_logic).execute()
+
+        if self.game_logic.total_scores is not None:
+            # TODO: Save the rounds in a NoSQL db
+            pass
 
 
 if __name__ == "__main__":
