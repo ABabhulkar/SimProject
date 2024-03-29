@@ -1,7 +1,7 @@
 from flask import request
 
 from ..app import app
-from ..controllers.controller import UserController
+from ..controllers.user import UserController
 from ..utils.jwt_token import token_required
 
 user_controller = UserController(app)

@@ -7,18 +7,21 @@ class GetFileNamesTest(unittest.TestCase):
     def __init__(self, methodName: str = "runTest") -> None:
         super().__init__(methodName)
         # Create an instance of the class containing the function
-        self.gameLogic = GameLogic()  # Replace 'MyClass' with the actual class name
+        self.gameLogic = GameLogic('server\\test\\resources\\game_files\\')  # Replace 'MyClass' with the actual class name
 
     def test_get_file_names(self):
         """Tests that the function returns the expected list of file paths."""
 
+        # This needs to be conditionally checked and then paths needs to be used
+        # as windows and linux have different way to show paths.
         expected_result = [
-            '/mnt/d/Projects/PythonWS/SimProject/prisonerD/src/clientApp.py',
-            '/mnt/d/Projects/PythonWS/SimProject/prisonerD/src/clientApp.py'
+            'server\\test\\resources\\game_files\\TestApp1',
+            'server\\test\\resources\\game_files\\TestApp2'
         ]
 
         # Call the function and get the result
         actual_result = self.gameLogic.get_file_names()
+        print(f'This is file paths: {actual_result}')
 
         # Assert that the actual result matches the expected result
         self.assertEqual(actual_result, expected_result)

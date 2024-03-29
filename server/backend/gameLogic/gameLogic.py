@@ -31,10 +31,9 @@ class GameLogic(IGameLogic):
         super().__init__()
         setup_logger()
         self.max_num_of_rounds = 0
+        self.root = root_path
         if root_path is None:
             self.root = os.getcwd()
-            # TODO: Remove after dev
-            self.root = '/mnt/d/Projects/PythonWS/SimProject/test/resources'
 
     def process_rounds(self, rounds_json):
         """
