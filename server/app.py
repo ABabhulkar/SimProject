@@ -1,6 +1,7 @@
 import os
 # App Initialization
 from . import create_app, init_db  # from __init__ file
+from .config import config
 
 app = create_app(os.getenv("CONFIG_MODE"))
 app.app_context().push()
@@ -12,7 +13,7 @@ def home():
 
 
 # Applications Routes
-from .routes import routes
+from .routes import routes, core
 from .models import *
 from . import command
 

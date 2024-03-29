@@ -8,8 +8,8 @@ class Application:
     """_summary_
     """
 
-    def __init__(self) -> None:
-        self.game_logic = GameLogic()
+    def __init__(self, root_path) -> None:
+        self.game_logic = GameLogic(root_path)
 
     def start_game(self, num_iterations: int) -> None:
         """
@@ -26,5 +26,5 @@ class Application:
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         num_iterations = sys.argv[1]
-    application = Application()
+    application = Application(root_path=None)
     application.start_game(int(num_iterations))
