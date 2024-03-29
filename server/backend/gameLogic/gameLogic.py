@@ -1,4 +1,3 @@
-
 import json
 import logging
 import os
@@ -47,6 +46,7 @@ class GameLogic(IGameLogic):
             A dictionary containing the updated JSON data and the total scores for P1 and P2.
         """
 
+        # TODO: Read this table from db
         score_table = {
             (0, 0): (3, 3),
             (0, 1): (0, 5),
