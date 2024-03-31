@@ -6,4 +6,4 @@
 - If file upload works then I can also add the user login and admin panel
     - Admin panel will have timeout, game config, and some other similar properties
 
-- check how to convert the flutter code into flet code.
+- [x] Check how to convert the flutter code into flet code. (Not required as we decided not to do flet)
