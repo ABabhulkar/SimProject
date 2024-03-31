@@ -1,14 +1,15 @@
-import '/auth/firebase_auth/auth_util.dart';
-import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import 'package:sim_frontend/model/auth_3_create_model.dart';
+
+import '/auth/firebase_auth/auth_util.dart';
+
 export 'package:sim_frontend/model/auth_3_create_model.dart';
 
 class Auth3CreateWidget extends StatefulWidget {
@@ -174,9 +175,9 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                         style: FlutterFlowTheme.of(context)
                                             .displaySmall
                                             .override(
-                                          fontFamily: 'Outfit',
-                                          letterSpacing: 0,
-                                        ),
+                                              fontFamily: 'Outfit',
+                                              letterSpacing: 0,
+                                            ),
                                       ),
                                     ],
                                   ),
@@ -190,16 +191,16 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Create an account',
                                         style: FlutterFlowTheme.of(context)
                                             .displaySmall
                                             .override(
-                                          fontFamily: 'Outfit',
-                                          letterSpacing: 0,
-                                        ),
+                                              fontFamily: 'Outfit',
+                                              letterSpacing: 0,
+                                            ),
                                       ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
@@ -209,9 +210,9 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                           style: FlutterFlowTheme.of(context)
                                               .labelLarge
                                               .override(
-                                            fontFamily: 'Readex Pro',
-                                            letterSpacing: 0,
-                                          ),
+                                                fontFamily: 'Readex Pro',
+                                                letterSpacing: 0,
+                                              ),
                                         ),
                                       ),
                                       Padding(
@@ -221,9 +222,9 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                           width: double.infinity,
                                           child: TextFormField(
                                             controller:
-                                            _model.emailAddressController,
+                                                _model.emailAddressController,
                                             focusNode:
-                                            _model.emailAddressFocusNode,
+                                                _model.emailAddressFocusNode,
                                             autofocus: true,
                                             autofillHints: [
                                               AutofillHints.email
@@ -232,71 +233,71 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                             decoration: InputDecoration(
                                               labelText: 'Email',
                                               labelStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .override(
-                                                fontFamily:
-                                                'Readex Pro',
-                                                letterSpacing: 0,
-                                              ),
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0,
+                                                      ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .secondaryBackground,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .primary,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               errorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .error,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               focusedErrorBorder:
-                                              OutlineInputBorder(
+                                                  OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .error,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               filled: true,
                                               fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                              fontFamily: 'Readex Pro',
-                                              letterSpacing: 0,
-                                            ),
+                                                  fontFamily: 'Readex Pro',
+                                                  letterSpacing: 0,
+                                                ),
                                             minLines: null,
                                             keyboardType:
-                                            TextInputType.emailAddress,
+                                                TextInputType.emailAddress,
                                             cursorColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
+                                                FlutterFlowTheme.of(context)
+                                                    .primary,
                                             validator: _model
                                                 .emailAddressControllerValidator
                                                 .asValidator(context),
@@ -310,86 +311,86 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                           width: double.infinity,
                                           child: TextFormField(
                                             controller:
-                                            _model.passwordController,
+                                                _model.passwordController,
                                             focusNode: _model.passwordFocusNode,
                                             autofocus: true,
                                             autofillHints: [
                                               AutofillHints.password
                                             ],
                                             obscureText:
-                                            !_model.passwordVisibility,
+                                                !_model.passwordVisibility,
                                             decoration: InputDecoration(
                                               labelText: 'Password',
                                               labelStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .override(
-                                                fontFamily:
-                                                'Readex Pro',
-                                                letterSpacing: 0,
-                                              ),
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0,
+                                                      ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .secondaryBackground,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .primary,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               errorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .error,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               focusedErrorBorder:
-                                              OutlineInputBorder(
+                                                  OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .error,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               filled: true,
                                               fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
                                               suffixIcon: InkWell(
                                                 onTap: () => setState(
-                                                      () => _model
-                                                      .passwordVisibility =
-                                                  !_model
-                                                      .passwordVisibility,
+                                                  () => _model
+                                                          .passwordVisibility =
+                                                      !_model
+                                                          .passwordVisibility,
                                                 ),
                                                 focusNode: FocusNode(
                                                     skipTraversal: true),
                                                 child: Icon(
                                                   _model.passwordVisibility
                                                       ? Icons
-                                                      .visibility_outlined
+                                                          .visibility_outlined
                                                       : Icons
-                                                      .visibility_off_outlined,
+                                                          .visibility_off_outlined,
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .secondaryText,
                                                   size: 24,
                                                 ),
@@ -398,13 +399,13 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                              fontFamily: 'Readex Pro',
-                                              letterSpacing: 0,
-                                            ),
+                                                  fontFamily: 'Readex Pro',
+                                                  letterSpacing: 0,
+                                                ),
                                             minLines: null,
                                             cursorColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
+                                                FlutterFlowTheme.of(context)
+                                                    .primary,
                                             validator: _model
                                                 .passwordControllerValidator
                                                 .asValidator(context),
@@ -420,7 +421,7 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                             controller: _model
                                                 .passwordConfirmController,
                                             focusNode:
-                                            _model.passwordConfirmFocusNode,
+                                                _model.passwordConfirmFocusNode,
                                             autofocus: true,
                                             autofillHints: [
                                               AutofillHints.password
@@ -430,75 +431,75 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                             decoration: InputDecoration(
                                               labelText: 'Confirm Password',
                                               labelStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .override(
-                                                fontFamily:
-                                                'Readex Pro',
-                                                letterSpacing: 0,
-                                              ),
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0,
+                                                      ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .secondaryBackground,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .primary,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               errorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .error,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               focusedErrorBorder:
-                                              OutlineInputBorder(
+                                                  OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .error,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               filled: true,
                                               fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
                                               suffixIcon: InkWell(
                                                 onTap: () => setState(
-                                                      () => _model
-                                                      .passwordConfirmVisibility =
-                                                  !_model
-                                                      .passwordConfirmVisibility,
+                                                  () => _model
+                                                          .passwordConfirmVisibility =
+                                                      !_model
+                                                          .passwordConfirmVisibility,
                                                 ),
                                                 focusNode: FocusNode(
                                                     skipTraversal: true),
                                                 child: Icon(
                                                   _model.passwordConfirmVisibility
                                                       ? Icons
-                                                      .visibility_outlined
+                                                          .visibility_outlined
                                                       : Icons
-                                                      .visibility_off_outlined,
+                                                          .visibility_off_outlined,
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .secondaryText,
                                                   size: 24,
                                                 ),
@@ -507,12 +508,12 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                              fontFamily: 'Readex Pro',
-                                              letterSpacing: 0,
-                                            ),
+                                                  fontFamily: 'Readex Pro',
+                                                  letterSpacing: 0,
+                                                ),
                                             cursorColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
+                                                FlutterFlowTheme.of(context)
+                                                    .primary,
                                             validator: _model
                                                 .passwordConfirmControllerValidator
                                                 .asValidator(context),
@@ -523,14 +524,14 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                         alignment: AlignmentDirectional(1, -1),
                                         child: Padding(
                                           padding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0, 0, 0, 16),
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 16),
                                           child: FFButtonWidget(
                                             onPressed: () async {
                                               GoRouter.of(context)
                                                   .prepareAuthEvent();
                                               if (_model.passwordController
-                                                  .text !=
+                                                      .text !=
                                                   _model
                                                       .passwordConfirmController
                                                       .text) {
@@ -568,24 +569,24 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                               iconPadding: EdgeInsetsDirectional
                                                   .fromSTEB(0, 0, 0, 0),
                                               color:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
                                               textStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .titleSmall
-                                                  .override(
-                                                fontFamily:
-                                                'Readex Pro',
-                                                color: Colors.white,
-                                                letterSpacing: 0,
-                                              ),
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        color: Colors.white,
+                                                        letterSpacing: 0,
+                                                      ),
                                               elevation: 3,
                                               borderSide: BorderSide(
                                                 color: Colors.transparent,
                                                 width: 1,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(12),
+                                                  BorderRadius.circular(12),
                                             ),
                                           ),
                                         ),
@@ -605,12 +606,12 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                               'auth_3_Login',
                                               extra: <String, dynamic>{
                                                 kTransitionInfoKey:
-                                                TransitionInfo(
+                                                    TransitionInfo(
                                                   hasTransition: true,
                                                   transitionType:
-                                                  PageTransitionType.fade,
+                                                      PageTransitionType.fade,
                                                   duration:
-                                                  Duration(milliseconds: 0),
+                                                      Duration(milliseconds: 0),
                                                 ),
                                               },
                                             );
@@ -622,36 +623,36 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                               children: [
                                                 TextSpan(
                                                   text:
-                                                  'Already have an account? ',
+                                                      'Already have an account? ',
                                                   style: TextStyle(),
                                                 ),
                                                 TextSpan(
                                                   text: 'Sign In here',
                                                   style: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .bodyMedium
                                                       .override(
-                                                    fontFamily:
-                                                    'Readex Pro',
-                                                    color:
-                                                    FlutterFlowTheme.of(
-                                                        context)
-                                                        .primary,
-                                                    fontSize: 16,
-                                                    letterSpacing: 0,
-                                                    fontWeight:
-                                                    FontWeight.w600,
-                                                  ),
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        fontSize: 16,
+                                                        letterSpacing: 0,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
                                                 )
                                               ],
                                               style:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelLarge
-                                                  .override(
-                                                fontFamily:
-                                                'Readex Pro',
-                                                letterSpacing: 0,
-                                              ),
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelLarge
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0,
+                                                      ),
                                             ),
                                           ),
                                         ),
@@ -670,8 +671,8 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                       ))
                                         Padding(
                                           padding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0, 12, 0, 12),
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 12, 0, 12),
                                           child: RichText(
                                             textScaler: MediaQuery.of(context)
                                                 .textScaler,
@@ -683,13 +684,13 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                                 )
                                               ],
                                               style:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelLarge
-                                                  .override(
-                                                fontFamily:
-                                                'Readex Pro',
-                                                letterSpacing: 0,
-                                              ),
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelLarge
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0,
+                                                      ),
                                             ),
                                           ),
                                         ),
@@ -699,17 +700,17 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                       ))
                                         Align(
                                           alignment:
-                                          AlignmentDirectional(-1, -1),
+                                              AlignmentDirectional(-1, -1),
                                           child: FFButtonWidget(
                                             onPressed: () async {
                                               context.pushNamed(
                                                 'auth_3_phone',
                                                 extra: <String, dynamic>{
                                                   kTransitionInfoKey:
-                                                  TransitionInfo(
+                                                      TransitionInfo(
                                                     hasTransition: true,
                                                     transitionType:
-                                                    PageTransitionType.fade,
+                                                        PageTransitionType.fade,
                                                     duration: Duration(
                                                         milliseconds: 0),
                                                   ),
@@ -729,37 +730,37 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                               iconPadding: EdgeInsetsDirectional
                                                   .fromSTEB(0, 0, 0, 0),
                                               color:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryBackground,
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
                                               textStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .override(
-                                                fontFamily:
-                                                'Readex Pro',
-                                                letterSpacing: 0,
-                                              ),
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0,
+                                                      ),
                                               elevation: 0,
                                               borderSide: BorderSide(
                                                 color:
-                                                FlutterFlowTheme.of(context)
-                                                    .alternate,
+                                                    FlutterFlowTheme.of(context)
+                                                        .alternate,
                                                 width: 2,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(12),
+                                                  BorderRadius.circular(12),
                                               hoverColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .alternate,
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
                                               hoverBorderSide: BorderSide(
                                                 color:
-                                                FlutterFlowTheme.of(context)
-                                                    .alternate,
+                                                    FlutterFlowTheme.of(context)
+                                                        .alternate,
                                                 width: 2,
                                               ),
                                               hoverTextColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryText,
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
                                               hoverElevation: 3,
                                             ),
                                           ),

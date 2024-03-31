@@ -1,12 +1,9 @@
-import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-
+import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:sim_frontend/model/home_page_model.dart';
 
 import '../components/home.dart';
+
 export 'package:sim_frontend/model/home_page_model.dart';
 
 class HomePageWidget extends StatefulWidget {

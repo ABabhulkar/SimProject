@@ -1,14 +1,15 @@
-import '/auth/firebase_auth/auth_util.dart';
-import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
-
 import 'package:sim_frontend/model/auth3_phone_model.dart';
+
+import '/auth/firebase_auth/auth_util.dart';
+
 export 'package:sim_frontend/model/auth3_phone_model.dart';
 
 class Auth3PhoneWidget extends StatefulWidget {
@@ -170,9 +171,9 @@ class _Auth3PhoneWidgetState extends State<Auth3PhoneWidget>
                                         style: FlutterFlowTheme.of(context)
                                             .displaySmall
                                             .override(
-                                          fontFamily: 'Outfit',
-                                          letterSpacing: 0,
-                                        ),
+                                              fontFamily: 'Outfit',
+                                              letterSpacing: 0,
+                                            ),
                                       ),
                                     ],
                                   ),
@@ -186,21 +187,21 @@ class _Auth3PhoneWidgetState extends State<Auth3PhoneWidget>
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0, 0, 0, 12),
                                         child: FlutterFlowIconButton(
                                           borderColor:
-                                          FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
                                           borderRadius: 12,
                                           borderWidth: 1,
                                           buttonSize: 40,
                                           fillColor:
-                                          FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
                                           icon: Icon(
                                             Icons.arrow_back_rounded,
                                             color: FlutterFlowTheme.of(context)
@@ -217,9 +218,9 @@ class _Auth3PhoneWidgetState extends State<Auth3PhoneWidget>
                                         style: FlutterFlowTheme.of(context)
                                             .displaySmall
                                             .override(
-                                          fontFamily: 'Outfit',
-                                          letterSpacing: 0,
-                                        ),
+                                              fontFamily: 'Outfit',
+                                              letterSpacing: 0,
+                                            ),
                                       ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
@@ -229,9 +230,9 @@ class _Auth3PhoneWidgetState extends State<Auth3PhoneWidget>
                                           style: FlutterFlowTheme.of(context)
                                               .labelLarge
                                               .override(
-                                            fontFamily: 'Readex Pro',
-                                            letterSpacing: 0,
-                                          ),
+                                                fontFamily: 'Readex Pro',
+                                                letterSpacing: 0,
+                                              ),
                                         ),
                                       ),
                                       Padding(
@@ -241,83 +242,83 @@ class _Auth3PhoneWidgetState extends State<Auth3PhoneWidget>
                                           width: double.infinity,
                                           child: TextFormField(
                                             controller:
-                                            _model.phoneNumberController,
+                                                _model.phoneNumberController,
                                             focusNode:
-                                            _model.phoneNumberFocusNode,
+                                                _model.phoneNumberFocusNode,
                                             autofocus: true,
                                             autofillHints: [
                                               AutofillHints.telephoneNumber
                                             ],
                                             textInputAction:
-                                            TextInputAction.send,
+                                                TextInputAction.send,
                                             obscureText: false,
                                             decoration: InputDecoration(
                                               labelText: 'Your phone number...',
                                               labelStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .override(
-                                                fontFamily:
-                                                'Readex Pro',
-                                                letterSpacing: 0,
-                                              ),
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        letterSpacing: 0,
+                                                      ),
                                               enabledBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .secondaryBackground,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .primary,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               errorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .error,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               focusedErrorBorder:
-                                              OutlineInputBorder(
+                                                  OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .error,
                                                   width: 2,
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(12),
+                                                    BorderRadius.circular(12),
                                               ),
                                               filled: true,
                                               fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                              fontFamily: 'Readex Pro',
-                                              letterSpacing: 0,
-                                            ),
+                                                  fontFamily: 'Readex Pro',
+                                                  letterSpacing: 0,
+                                                ),
                                             minLines: null,
                                             keyboardType: TextInputType.phone,
                                             cursorColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
+                                                FlutterFlowTheme.of(context)
+                                                    .primary,
                                             validator: _model
                                                 .phoneNumberControllerValidator
                                                 .asValidator(context),
@@ -331,8 +332,8 @@ class _Auth3PhoneWidgetState extends State<Auth3PhoneWidget>
                                         alignment: AlignmentDirectional(1, -1),
                                         child: Padding(
                                           padding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0, 0, 0, 16),
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 16),
                                           child: FFButtonWidget(
                                             onPressed: () async {
                                               final phoneNumberVal = _model
@@ -359,7 +360,7 @@ class _Auth3PhoneWidgetState extends State<Auth3PhoneWidget>
                                                     context.mounted,
                                                     queryParameters: {
                                                       'phoneNumber':
-                                                      serializeParam(
+                                                          serializeParam(
                                                         _model
                                                             .phoneNumberController
                                                             .text,
@@ -380,24 +381,24 @@ class _Auth3PhoneWidgetState extends State<Auth3PhoneWidget>
                                               iconPadding: EdgeInsetsDirectional
                                                   .fromSTEB(0, 0, 0, 0),
                                               color:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
                                               textStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .titleSmall
-                                                  .override(
-                                                fontFamily:
-                                                'Readex Pro',
-                                                color: Colors.white,
-                                                letterSpacing: 0,
-                                              ),
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        color: Colors.white,
+                                                        letterSpacing: 0,
+                                                      ),
                                               elevation: 3,
                                               borderSide: BorderSide(
                                                 color: Colors.transparent,
                                                 width: 1,
                                               ),
                                               borderRadius:
-                                              BorderRadius.circular(12),
+                                                  BorderRadius.circular(12),
                                             ),
                                           ),
                                         ),
