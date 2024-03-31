@@ -1,4 +1,3 @@
-
 import json
 import logging
 import os
@@ -23,7 +22,7 @@ class GameLogic(IGameLogic):
         IGameLogic (Interface): Interface for the game logic api
     """
 
-    def __init__(self, root_path=None) -> None:
+    def __init__(self, result_metric: json, root_path=None) -> None:
         """
         Args:
             root_path: The path to the directory to search for executable files. Defaults to None.
@@ -32,28 +31,38 @@ class GameLogic(IGameLogic):
         setup_logger()
         self.max_num_of_rounds = 0
         self.root = root_path
+        self.result_metric = result_metric
+        self.total_scores = None
         if root_path is None:
             self.root = os.getcwd()
 
-    def process_rounds(self, rounds_json):
+    @staticmethod
+    def __parse_result_metric(result_metric: json):
+        # Create an empty dictionary
+        result_dict = {}
+
+        # Iterate through the list of dictionaries in the JSON data
+        for item in result_metric:
+            # Extract the key and value from the current item
+            key = tuple(item['key'])  # Convert key list to tuple
+            value = item['value']
+
+            # Add the key-value pair to the dictionary
+            result_dict[key] = value
+
+        return result_dict
+
+    def __process_rounds(self, rounds_json):
         """
         Processes the given JSON data, updates the score for each round based on the
         provided table, and calculates the total score for P1 and P2.
 
         Args:
-            json_data: The JSON data to process.
+            rounds_json: The JSON data to process.
 
         Returns:
             A dictionary containing the updated JSON data and the total scores for P1 and P2.
         """
-
-        score_table = {
-            (0, 0): (3, 3),
-            (0, 1): (0, 5),
-            (1, 0): (5, 0),
-            (1, 1): (1, 1),
-        }
-
         processed_data = {}
         total_score_p1 = 0
         total_score_p2 = 0
@@ -63,7 +72,7 @@ class GameLogic(IGameLogic):
             p1_move = processed_data[round_id]["gameRound"]["P0"]["move"]
             p2_move = processed_data[round_id]["gameRound"]["P1"]["move"]
 
-            p1_score, p2_score = score_table[(p1_move, p2_move)]
+            p1_score, p2_score = self.__parse_result_metric(self.result_metric)[(p1_move, p2_move)]
             processed_data[round_id]["gameRound"]["P0"]["score"] = p1_score
             processed_data[round_id]["gameRound"]["P1"]["score"] = p2_score
             total_score_p1 += p1_score
@@ -80,10 +89,9 @@ class GameLogic(IGameLogic):
         """
         logger.debug('calculate result')
         data = json.loads(rounds_json)
-        _, total_scores = self.process_rounds(data)
-
-        # TODO: Save the rounds in a NoSQL db
-        logger.info(f'Scores:{total_scores}')
+        _, total_scores = self.__process_rounds(data)
+        self.total_scores = total_scores
+        logger.debug(f'Scores:{total_scores}')
 
     def get_file_names(self) -> list:
         """

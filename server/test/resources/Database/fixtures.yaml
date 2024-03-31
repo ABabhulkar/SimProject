@@ -20,7 +20,11 @@
 - model: game.Game
   items:
     - name: Game 1
-      result_metric: {}
+      result_metric: |
+           [{"key":[0,0],"value":[3,3]},
+            {"key":[0,1],"value":[0,5]},
+            {"key":[1,0],"value":[5,0]},
+            {"key":[1,1],"value":[1,1]}]
       other: {}
     - name: Game 2
       result_metric: {}
