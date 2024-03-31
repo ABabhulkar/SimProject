@@ -6,8 +6,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'home_model.dart';
-export 'home_model.dart';
+import 'package:sim_frontend/model/home_model.dart';
+export 'package:sim_frontend/model/home_model.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});

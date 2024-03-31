@@ -12,8 +12,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
-import 'auth3_forgot_password_model.dart';
-export 'auth3_forgot_password_model.dart';
+import 'package:sim_frontend/model/auth_3_forgot_password.dart';
+export 'package:sim_frontend/model/auth_3_forgot_password.dart';
 
 class Auth3ForgotPasswordWidget extends StatefulWidget {
   const Auth3ForgotPasswordWidget({super.key});
