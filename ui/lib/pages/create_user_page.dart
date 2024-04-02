@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:sim_frontend/model/create_user_model.dart';
+import 'package:sim_frontend/widgets/sim_button_widget.dart';
 
 export 'package:sim_frontend/model/create_user_model.dart';
 
@@ -519,40 +520,11 @@ class _CreateUserPageWidgetState extends State<CreateUserPageWidget>
                                         child: Padding(
                                           padding: const EdgeInsetsDirectional
                                               .fromSTEB(0, 0, 0, 16),
-                                          child: FFButtonWidget(
+                                          child: SimButtonWidget(
                                             onPressed: () {
                                               print('Button pressed ...');
                                             },
                                             text: 'Create Account',
-                                            options: FFButtonOptions(
-                                              width: 200,
-                                              height: 44,
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .fromSTEB(0, 0, 0, 0),
-                                              iconPadding:
-                                                  const EdgeInsetsDirectional
-                                                      .fromSTEB(0, 0, 0, 0),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        color: Colors.white,
-                                                        letterSpacing: 0,
-                                                      ),
-                                              elevation: 3,
-                                              borderSide: const BorderSide(
-                                                color: Colors.transparent,
-                                                width: 1,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
                                           ),
                                         ),
                                       ),

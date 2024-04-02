@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:sim_frontend/model/login_model.dart';
+import 'package:sim_frontend/widgets/sim_button_widget.dart';
 
 export 'package:sim_frontend/model/login_model.dart';
 
@@ -151,8 +152,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 12, 0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 12, 0),
                                         child: Icon(
                                           Icons.flourescent_rounded,
                                           color: FlutterFlowTheme.of(context)
@@ -193,8 +194,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                             ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 4, 0, 24),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 4, 0, 24),
                                         child: Text(
                                           'Let\'s get started by filling out the form below.',
                                           style: FlutterFlowTheme.of(context)
@@ -206,8 +207,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 16),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 16),
                                         child: SizedBox(
                                           width: double.infinity,
                                           child: TextFormField(
@@ -295,8 +296,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 16),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 16),
                                         child: SizedBox(
                                           width: double.infinity,
                                           child: TextFormField(
@@ -403,51 +404,24 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                         ),
                                       ),
                                       Align(
-                                        alignment: const AlignmentDirectional(1, -1),
+                                        alignment:
+                                            const AlignmentDirectional(1, -1),
                                         child: Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 16),
-                                          child: FFButtonWidget(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 16),
+                                          child: SimButtonWidget(
                                             onPressed: () {
                                               print('Button pressed ...');
                                             },
                                             text: 'Login',
-                                            options: FFButtonOptions(
-                                              width: 200,
-                                              height: 44,
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 0),
-                                              iconPadding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 0),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        color: Colors.white,
-                                                        letterSpacing: 0,
-                                                      ),
-                                              elevation: 3,
-                                              borderSide: const BorderSide(
-                                                color: Colors.transparent,
-                                                width: 1,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
                                           ),
                                         ),
                                       ),
 
                                       // You will have to add an action on this rich text to go to your login page.
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 12, 0, 12),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 12, 0, 12),
                                         child: InkWell(
                                           splashColor: Colors.transparent,
                                           focusColor: Colors.transparent,
