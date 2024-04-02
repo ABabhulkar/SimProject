@@ -8,8 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sim_frontend/model/auth_3_create_model.dart';
 
-import '/auth/firebase_auth/auth_util.dart';
-
 export 'package:sim_frontend/model/auth_3_create_model.dart';
 
 class Auth3CreateWidget extends StatefulWidget {
@@ -41,15 +39,15 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 400.ms,
-          begin: Offset(0.9, 0.9),
-          end: Offset(1, 1),
+          begin: const Offset(0.9, 0.9),
+          end: const Offset(1, 1),
         ),
         TiltEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 400.ms,
-          begin: Offset(0, 0.524),
-          end: Offset(0, 0),
+          begin: const Offset(0, 0.524),
+          end: const Offset(0, 0),
         ),
       ],
     ),
@@ -99,7 +97,7 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                 Expanded(
                   flex: 5,
                   child: Align(
-                    alignment: AlignmentDirectional(0, -1),
+                    alignment: const AlignmentDirectional(0, -1),
                     child: Container(
                       width: double.infinity,
                       height: double.infinity,
@@ -109,9 +107,9 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                             FlutterFlowTheme.of(context).primaryBackground,
                             FlutterFlowTheme.of(context).primary
                           ],
-                          stops: [0, 1],
-                          begin: AlignmentDirectional(1, 0),
-                          end: AlignmentDirectional(-1, 0),
+                          stops: const [0, 1],
+                          begin: const AlignmentDirectional(1, 0),
+                          end: const AlignmentDirectional(-1, 0),
                         ),
                         borderRadius: BorderRadius.circular(0),
                       ),
@@ -121,21 +119,21 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
               Expanded(
                 flex: 5,
                 child: Align(
-                  alignment: AlignmentDirectional(0, 0),
+                  alignment: const AlignmentDirectional(0, 0),
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: Container(
                         width: double.infinity,
                         height: double.infinity,
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: 570,
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        alignment: AlignmentDirectional(0, -1),
+                        alignment: const AlignmentDirectional(0, -1),
                         child: SingleChildScrollView(
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -144,7 +142,7 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                               Container(
                                 width: double.infinity,
                                 height: 140,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(16),
                                     bottomRight: Radius.circular(16),
@@ -152,17 +150,17 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                     topRight: Radius.circular(0),
                                   ),
                                 ),
-                                alignment: AlignmentDirectional(-1, 0),
+                                alignment: const AlignmentDirectional(-1, 0),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16, 0, 16, 0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 12, 0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 12, 0),
                                         child: Icon(
                                           Icons.flourescent_rounded,
                                           color: FlutterFlowTheme.of(context)
@@ -184,9 +182,9 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                 ),
                               ),
                               Align(
-                                alignment: AlignmentDirectional(0, 0),
+                                alignment: const AlignmentDirectional(0, 0),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16, 0, 16, 32),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -203,8 +201,8 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                             ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 4, 0, 24),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 4, 0, 24),
                                         child: Text(
                                           'Let\'s get started by filling out the form below.',
                                           style: FlutterFlowTheme.of(context)
@@ -216,9 +214,9 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 16),
-                                        child: Container(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 16),
+                                        child: SizedBox(
                                           width: double.infinity,
                                           child: TextFormField(
                                             controller:
@@ -226,7 +224,7 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                             focusNode:
                                                 _model.emailAddressFocusNode,
                                             autofocus: true,
-                                            autofillHints: [
+                                            autofillHints: const [
                                               AutofillHints.email
                                             ],
                                             obscureText: false,
@@ -305,16 +303,16 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 16),
-                                        child: Container(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 16),
+                                        child: SizedBox(
                                           width: double.infinity,
                                           child: TextFormField(
                                             controller:
                                                 _model.passwordController,
                                             focusNode: _model.passwordFocusNode,
                                             autofocus: true,
-                                            autofillHints: [
+                                            autofillHints: const [
                                               AutofillHints.password
                                             ],
                                             obscureText:
@@ -413,9 +411,9 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 16),
-                                        child: Container(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 16),
+                                        child: SizedBox(
                                           width: double.infinity,
                                           child: TextFormField(
                                             controller: _model
@@ -423,7 +421,7 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                             focusNode:
                                                 _model.passwordConfirmFocusNode,
                                             autofocus: true,
-                                            autofillHints: [
+                                            autofillHints: const [
                                               AutofillHints.password
                                             ],
                                             obscureText: !_model
@@ -521,53 +519,25 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                         ),
                                       ),
                                       Align(
-                                        alignment: AlignmentDirectional(1, -1),
+                                        alignment:
+                                            const AlignmentDirectional(1, -1),
                                         child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 16),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 16),
                                           child: FFButtonWidget(
-                                            onPressed: () async {
-                                              GoRouter.of(context)
-                                                  .prepareAuthEvent();
-                                              if (_model.passwordController
-                                                      .text !=
-                                                  _model
-                                                      .passwordConfirmController
-                                                      .text) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      'Passwords don\'t match!',
-                                                    ),
-                                                  ),
-                                                );
-                                                return;
-                                              }
-
-                                              final user = await authManager
-                                                  .createAccountWithEmail(
-                                                context,
-                                                _model.emailAddressController
-                                                    .text,
-                                                _model.passwordController.text,
-                                              );
-                                              if (user == null) {
-                                                return;
-                                              }
-
-                                              context.goNamedAuth(
-                                                  'HomePage', context.mounted);
+                                            onPressed: () {
+                                              print('Button pressed ...');
                                             },
                                             text: 'Create Account',
                                             options: FFButtonOptions(
                                               width: 200,
                                               height: 44,
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 0),
-                                              iconPadding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 0),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 0, 0),
+                                              iconPadding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 0, 0),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primary,
@@ -581,7 +551,7 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                                         letterSpacing: 0,
                                                       ),
                                               elevation: 3,
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                 color: Colors.transparent,
                                                 width: 1,
                                               ),
@@ -594,34 +564,34 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
 
                                       // You will have to add an action on this rich text to go to your login page.
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 12, 0, 12),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 12, 0, 12),
                                         child: InkWell(
                                           splashColor: Colors.transparent,
                                           focusColor: Colors.transparent,
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
-                                            context.pushNamed(
-                                              'auth_3_Login',
-                                              extra: <String, dynamic>{
-                                                kTransitionInfoKey:
-                                                    TransitionInfo(
-                                                  hasTransition: true,
-                                                  transitionType:
-                                                      PageTransitionType.fade,
-                                                  duration:
-                                                      Duration(milliseconds: 0),
-                                                ),
-                                              },
-                                            );
+                                            // context.pushNamed(
+                                            //   'auth_3_Login',
+                                            //   extra: <String, dynamic>{
+                                            //     kTransitionInfoKey:
+                                            //         TransitionInfo(
+                                            //       hasTransition: true,
+                                            //       transitionType:
+                                            //           PageTransitionType.fade,
+                                            //       duration:
+                                            //           Duration(milliseconds: 0),
+                                            //     ),
+                                            //   },
+                                            // );
                                           },
                                           child: RichText(
                                             textScaler: MediaQuery.of(context)
                                                 .textScaler,
                                             text: TextSpan(
                                               children: [
-                                                TextSpan(
+                                                const TextSpan(
                                                   text:
                                                       'Already have an account? ',
                                                   style: TextStyle(),
@@ -663,108 +633,6 @@ class _Auth3CreateWidgetState extends State<Auth3CreateWidget>
                                         color: FlutterFlowTheme.of(context)
                                             .alternate,
                                       ),
-
-                                      // You will have to add an action on this rich text to go to your login page.
-                                      if (responsiveVisibility(
-                                        context: context,
-                                        desktop: false,
-                                      ))
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 12, 0, 12),
-                                          child: RichText(
-                                            textScaler: MediaQuery.of(context)
-                                                .textScaler,
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Additional options:',
-                                                  style: TextStyle(),
-                                                )
-                                              ],
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelLarge
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        letterSpacing: 0,
-                                                      ),
-                                            ),
-                                          ),
-                                        ),
-                                      if (responsiveVisibility(
-                                        context: context,
-                                        desktop: false,
-                                      ))
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(-1, -1),
-                                          child: FFButtonWidget(
-                                            onPressed: () async {
-                                              context.pushNamed(
-                                                'auth_3_phone',
-                                                extra: <String, dynamic>{
-                                                  kTransitionInfoKey:
-                                                      TransitionInfo(
-                                                    hasTransition: true,
-                                                    transitionType:
-                                                        PageTransitionType.fade,
-                                                    duration: Duration(
-                                                        milliseconds: 0),
-                                                  ),
-                                                },
-                                              );
-                                            },
-                                            text: 'Continue with Phone',
-                                            icon: Icon(
-                                              Icons.phone_sharp,
-                                              size: 15,
-                                            ),
-                                            options: FFButtonOptions(
-                                              width: double.infinity,
-                                              height: 44,
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(24, 0, 24, 0),
-                                              iconPadding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 0),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        letterSpacing: 0,
-                                                      ),
-                                              elevation: 0,
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .alternate,
-                                                width: 2,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              hoverColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              hoverBorderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .alternate,
-                                                width: 2,
-                                              ),
-                                              hoverTextColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              hoverElevation: 3,
-                                            ),
-                                          ),
-                                        ),
                                     ],
                                   ),
                                 ),
