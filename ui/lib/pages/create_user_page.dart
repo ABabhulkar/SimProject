@@ -1,11 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:sim_frontend/model/create_user_model.dart';
 
 export 'package:sim_frontend/model/create_user_model.dart';
