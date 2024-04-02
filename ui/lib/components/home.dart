@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'package:sim_frontend/model/home_model.dart';
+import 'package:sim_frontend/components/home_model.dart';
 
-export 'package:sim_frontend/model/home_model.dart';
+export 'package:sim_frontend/components/home_model.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});

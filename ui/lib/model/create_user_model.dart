@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 
-import '../pages/auth_3_login.dart' show Auth3LoginWidget;
+import '../pages/create_user_page.dart' show CreateUserPageWidget;
 
-class Auth3LoginModel extends FlutterFlowModel<Auth3LoginWidget> {
+class CreateUserModel extends FlutterFlowModel<CreateUserPageWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -19,9 +19,16 @@ class Auth3LoginModel extends FlutterFlowModel<Auth3LoginWidget> {
   late bool passwordVisibility;
   String? Function(BuildContext, String?)? passwordControllerValidator;
 
+  // State field(s) for passwordConfirm widget.
+  FocusNode? passwordConfirmFocusNode;
+  TextEditingController? passwordConfirmController;
+  late bool passwordConfirmVisibility;
+  String? Function(BuildContext, String?)? passwordConfirmControllerValidator;
+
   @override
   void initState(BuildContext context) {
     passwordVisibility = false;
+    passwordConfirmVisibility = false;
   }
 
   @override
@@ -32,5 +39,8 @@ class Auth3LoginModel extends FlutterFlowModel<Auth3LoginWidget> {
 
     passwordFocusNode?.dispose();
     passwordController?.dispose();
+
+    passwordConfirmFocusNode?.dispose();
+    passwordConfirmController?.dispose();
   }
 }

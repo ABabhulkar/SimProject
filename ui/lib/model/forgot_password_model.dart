@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../pages/auth_3_forgot_password.dart' show Auth3ForgotPasswordWidget;
+import '../pages/forgot_password_page.dart' show ForgotPasswordPageWidget;
 
-class Auth3ForgotPasswordModel
-    extends FlutterFlowModel<Auth3ForgotPasswordWidget> {
+class ForgotPasswordModel
+    extends FlutterFlowModel<ForgotPasswordPageWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
