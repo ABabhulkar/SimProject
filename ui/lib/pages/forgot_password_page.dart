@@ -150,8 +150,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget>
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 12, 0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 12, 0),
                                         child: Icon(
                                           Icons.flourescent_rounded,
                                           color: FlutterFlowTheme.of(context)
@@ -183,8 +183,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget>
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 12),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 12),
                                         child: FlutterFlowIconButton(
                                           borderColor:
                                               FlutterFlowTheme.of(context)
@@ -202,9 +202,9 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget>
                                             size: 24,
                                           ),
                                           onPressed: () async {
+                                            Navigator.pop(context);
                                             // context.safePop();
                                           },
-
                                         ),
                                       ),
                                       Text(
@@ -217,8 +217,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget>
                                             ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 4, 0, 24),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 4, 0, 24),
                                         child: Text(
                                           'Enter your email below in order be sent a reset password link.',
                                           style: FlutterFlowTheme.of(context)
@@ -230,8 +230,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 16),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 16),
                                         child: SizedBox(
                                           width: double.infinity,
                                           child: TextFormField(
@@ -320,11 +320,11 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget>
                                         ),
                                       ),
                                       Align(
-                                        alignment: const AlignmentDirectional(1, -1),
+                                        alignment:
+                                            const AlignmentDirectional(1, -1),
                                         child: Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 16),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 16),
                                           child: SimButtonWidget(
                                             onPressed: () {
                                               print('Button pressed ...');

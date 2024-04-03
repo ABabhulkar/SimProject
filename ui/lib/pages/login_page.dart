@@ -428,6 +428,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
+                                            await Navigator.pushNamed(
+                                                context, '/create');
                                             // context.pushNamed(
                                             //   'auth_3_Create',
                                             //   extra: <String, dynamic>{
@@ -504,6 +506,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    await Navigator.pushNamed(
+                                      context,
+                                      '/forgot_password',
+                                    );
                                     // context.pushNamed(
                                     //   'auth_3_ForgotPassword',
                                     //   extra: <String, dynamic>{
@@ -511,7 +517,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                     //       hasTransition: true,
                                     //       transitionType:
                                     //           PageTransitionType.fade,
-                                    //       duration: const Duration(milliseconds: 0),
+                                    //       duration:
+                                    //           const Duration(milliseconds: 0),
                                     //     ),
                                     //   },
                                     // );

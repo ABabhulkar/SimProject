@@ -100,7 +100,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Align(
-                                    alignment: const AlignmentDirectional(-1, -1),
+                                    alignment:
+                                        const AlignmentDirectional(-1, -1),
                                     child: Padding(
                                       padding: const EdgeInsets.all(12),
                                       child: Text(
@@ -163,14 +164,14 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   indicatorColor:
                                       FlutterFlowTheme.of(context).primary,
                                   padding: const EdgeInsets.all(4),
-                                  tabs: [
-                                    const Tab(
+                                  tabs: const [
+                                    Tab(
                                       text: 'Home',
                                     ),
-                                    const Tab(
+                                    Tab(
                                       text: 'Add new',
                                     ),
-                                    const Tab(
+                                    Tab(
                                       text: 'About Us!',
                                     ),
                                   ],

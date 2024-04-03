@@ -539,6 +539,8 @@ class _CreateUserPageWidgetState extends State<CreateUserPageWidget>
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
+                                            await Navigator.pushNamed(
+                                                context, '/login');
                                             // context.pushNamed(
                                             //   'auth_3_Login',
                                             //   extra: <String, dynamic>{
