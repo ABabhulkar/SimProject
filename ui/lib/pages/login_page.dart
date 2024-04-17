@@ -4,6 +4,8 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:sim_frontend/model/login_model.dart';
 import 'package:sim_frontend/widgets/sim_button_widget.dart';
 
+import '../widgets/text_input_field.dart';
+
 export 'package:sim_frontend/model/login_model.dart';
 
 class LoginPageWidget extends StatefulWidget {
@@ -206,200 +208,44 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                               ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional
-                                            .fromSTEB(0, 0, 0, 16),
-                                        child: SizedBox(
-                                          width: double.infinity,
-                                          child: TextFormField(
-                                            controller:
-                                                _model.emailAddressController,
-                                            focusNode:
-                                                _model.emailAddressFocusNode,
-                                            autofocus: true,
-                                            autofillHints: const [
-                                              AutofillHints.email
-                                            ],
-                                            obscureText: false,
-                                            decoration: InputDecoration(
-                                              labelText: 'Email',
-                                              labelStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        letterSpacing: 0,
-                                                      ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primary,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              errorBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .error,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              focusedErrorBorder:
-                                                  OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .error,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              filled: true,
-                                              fillColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Readex Pro',
-                                                  letterSpacing: 0,
-                                                ),
-                                            minLines: null,
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            cursorColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            validator: _model
-                                                .emailAddressControllerValidator
-                                                .asValidator(context),
-                                          ),
-                                        ),
+                                      TextInputField(
+                                        model: _model,
+                                        textLable: "Email",
+                                        controller:
+                                            _model.emailAddressController,
+                                        focusNode: _model.emailAddressFocusNode,
+                                        textInputType:
+                                            TextInputType.emailAddress,
+                                        validator: _model
+                                            .emailAddressControllerValidator
+                                            .asValidator(context),
+                                        autofillHint: AutofillHints.email,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional
-                                            .fromSTEB(0, 0, 0, 16),
-                                        child: SizedBox(
-                                          width: double.infinity,
-                                          child: TextFormField(
-                                            controller:
-                                                _model.passwordController,
-                                            focusNode: _model.passwordFocusNode,
-                                            autofocus: true,
-                                            autofillHints: const [
-                                              AutofillHints.password
-                                            ],
-                                            obscureText:
+                                      TextInputField(
+                                        model: _model,
+                                        textLable: "Password",
+                                        controller: _model.passwordController,
+                                        focusNode: _model.passwordFocusNode,
+                                        textInputType:
+                                            TextInputType.visiblePassword,
+                                        validator: _model
+                                            .passwordControllerValidator
+                                            .asValidator(context),
+                                        autofillHint: AutofillHints.password,
+                                        suffixIcon: InkWell(
+                                          onTap: () => setState(
+                                            () => _model.passwordVisibility =
                                                 !_model.passwordVisibility,
-                                            decoration: InputDecoration(
-                                              labelText: 'Password',
-                                              labelStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        letterSpacing: 0,
-                                                      ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primary,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              errorBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .error,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              focusedErrorBorder:
-                                                  OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .error,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              filled: true,
-                                              fillColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
-                                              suffixIcon: InkWell(
-                                                onTap: () => setState(
-                                                  () => _model
-                                                          .passwordVisibility =
-                                                      !_model
-                                                          .passwordVisibility,
-                                                ),
-                                                focusNode: FocusNode(
-                                                    skipTraversal: true),
-                                                child: Icon(
-                                                  _model.passwordVisibility
-                                                      ? Icons
-                                                          .visibility_outlined
-                                                      : Icons
-                                                          .visibility_off_outlined,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryText,
-                                                  size: 24,
-                                                ),
-                                              ),
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Readex Pro',
-                                                  letterSpacing: 0,
-                                                ),
-                                            minLines: null,
-                                            cursorColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            validator: _model
-                                                .passwordControllerValidator
-                                                .asValidator(context),
+                                          ),
+                                          focusNode:
+                                              FocusNode(skipTraversal: true),
+                                          child: Icon(
+                                            _model.passwordVisibility
+                                                ? Icons.visibility_outlined
+                                                : Icons.visibility_off_outlined,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 24,
                                           ),
                                         ),
                                       ),
