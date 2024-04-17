@@ -1,25 +1,21 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:sim_frontend/model/auth_3_login_model.dart';
+import 'package:sim_frontend/model/create_user_model.dart';
+import 'package:sim_frontend/widgets/sim_button_widget.dart';
 
-export 'package:sim_frontend/model/auth_3_login_model.dart';
+export 'package:sim_frontend/model/create_user_model.dart';
 
-class Auth3LoginWidget extends StatefulWidget {
-  const Auth3LoginWidget({super.key});
+class CreateUserPageWidget extends StatefulWidget {
+  const CreateUserPageWidget({super.key});
 
   @override
-  State<Auth3LoginWidget> createState() => _Auth3LoginWidgetState();
+  State<CreateUserPageWidget> createState() => _CreateUserPageWidgetState();
 }
 
-class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
+class _CreateUserPageWidgetState extends State<CreateUserPageWidget>
     with TickerProviderStateMixin {
-  late Auth3LoginModel _model;
+  late CreateUserModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -46,7 +42,7 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 400.ms,
-          begin: const Offset(0, -0.524),
+          begin: const Offset(0, 0.524),
           end: const Offset(0, 0),
         ),
       ],
@@ -56,13 +52,16 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => Auth3LoginModel());
+    _model = createModel(context, () => CreateUserModel());
 
     _model.emailAddressController ??= TextEditingController();
     _model.emailAddressFocusNode ??= FocusNode();
 
     _model.passwordController ??= TextEditingController();
     _model.passwordFocusNode ??= FocusNode();
+
+    _model.passwordConfirmController ??= TextEditingController();
+    _model.passwordConfirmFocusNode ??= FocusNode();
   }
 
   @override
@@ -156,8 +155,8 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 12, 0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 12, 0),
                                         child: Icon(
                                           Icons.flourescent_rounded,
                                           color: FlutterFlowTheme.of(context)
@@ -182,14 +181,14 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
                                 alignment: const AlignmentDirectional(0, 0),
                                 child: Padding(
                                   padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16, 0, 16, 0),
+                                      16, 0, 16, 32),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Login',
+                                        'Create an account',
                                         style: FlutterFlowTheme.of(context)
                                             .displaySmall
                                             .override(
@@ -198,8 +197,8 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
                                             ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 4, 0, 24),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 4, 0, 24),
                                         child: Text(
                                           'Let\'s get started by filling out the form below.',
                                           style: FlutterFlowTheme.of(context)
@@ -211,8 +210,8 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 16),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 16),
                                         child: SizedBox(
                                           width: double.infinity,
                                           child: TextFormField(
@@ -300,8 +299,8 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 16),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 16),
                                         child: SizedBox(
                                           width: double.infinity,
                                           child: TextFormField(
@@ -407,60 +406,143 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
                                           ),
                                         ),
                                       ),
-                                      Align(
-                                        alignment: const AlignmentDirectional(1, -1),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 16),
-                                          child: FFButtonWidget(
-                                            onPressed: () {
-                                              print('Button pressed ...');
-                                            },
-                                            text: 'Login',
-                                            options: FFButtonOptions(
-                                              width: 200,
-                                              height: 44,
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 0),
-                                              iconPadding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 0),
-                                              color:
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 16),
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          child: TextFormField(
+                                            controller: _model
+                                                .passwordConfirmController,
+                                            focusNode:
+                                                _model.passwordConfirmFocusNode,
+                                            autofocus: true,
+                                            autofillHints: const [
+                                              AutofillHints.password
+                                            ],
+                                            obscureText: !_model
+                                                .passwordConfirmVisibility,
+                                            decoration: InputDecoration(
+                                              labelText: 'Confirm Password',
+                                              labelStyle:
                                                   FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
+                                                      .labelMedium
                                                       .override(
                                                         fontFamily:
                                                             'Readex Pro',
-                                                        color: Colors.white,
                                                         letterSpacing: 0,
                                                       ),
-                                              elevation: 3,
-                                              borderSide: const BorderSide(
-                                                color: Colors.transparent,
-                                                width: 1,
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  width: 2,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primary,
+                                                  width: 2,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              errorBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .error,
+                                                  width: 2,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              focusedErrorBorder:
+                                                  OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .error,
+                                                  width: 2,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              filled: true,
+                                              fillColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              suffixIcon: InkWell(
+                                                onTap: () => setState(
+                                                  () => _model
+                                                          .passwordConfirmVisibility =
+                                                      !_model
+                                                          .passwordConfirmVisibility,
+                                                ),
+                                                focusNode: FocusNode(
+                                                    skipTraversal: true),
+                                                child: Icon(
+                                                  _model.passwordConfirmVisibility
+                                                      ? Icons
+                                                          .visibility_outlined
+                                                      : Icons
+                                                          .visibility_off_outlined,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  size: 24,
+                                                ),
+                                              ),
                                             ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Readex Pro',
+                                                  letterSpacing: 0,
+                                                ),
+                                            cursorColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .primary,
+                                            validator: _model
+                                                .passwordConfirmControllerValidator
+                                                .asValidator(context),
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment:
+                                            const AlignmentDirectional(1, -1),
+                                        child: Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 16),
+                                          child: SimButtonWidget(
+                                            onPressed: () {
+                                              print('Button pressed ...');
+                                            },
+                                            text: 'Create Account',
                                           ),
                                         ),
                                       ),
 
                                       // You will have to add an action on this rich text to go to your login page.
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 12, 0, 12),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 12, 0, 12),
                                         child: InkWell(
                                           splashColor: Colors.transparent,
                                           focusColor: Colors.transparent,
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
+                                            await Navigator.pushNamed(
+                                                context, '/login');
                                             // context.pushNamed(
-                                            //   'auth_3_Create',
+                                            //   'auth_3_Login',
                                             //   extra: <String, dynamic>{
                                             //     kTransitionInfoKey:
                                             //         TransitionInfo(
@@ -468,7 +550,7 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
                                             //       transitionType:
                                             //           PageTransitionType.fade,
                                             //       duration:
-                                            //           const Duration(milliseconds: 0),
+                                            //           Duration(milliseconds: 0),
                                             //     ),
                                             //   },
                                             // );
@@ -480,11 +562,11 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
                                               children: [
                                                 const TextSpan(
                                                   text:
-                                                      'Don\'t have an account? ',
+                                                      'Already have an account? ',
                                                   style: TextStyle(),
                                                 ),
                                                 TextSpan(
-                                                  text: 'Signup here',
+                                                  text: 'Sign In here',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
@@ -521,63 +603,6 @@ class _Auth3LoginWidgetState extends State<Auth3LoginWidget>
                                             .alternate,
                                       ),
                                     ],
-                                  ),
-                                ),
-                              ),
-
-                              // You will have to add an action on this rich text to go to your login page.
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0, 120, 0, 24),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    // context.pushNamed(
-                                    //   'auth_3_ForgotPassword',
-                                    //   extra: <String, dynamic>{
-                                    //     kTransitionInfoKey: TransitionInfo(
-                                    //       hasTransition: true,
-                                    //       transitionType:
-                                    //           PageTransitionType.fade,
-                                    //       duration: const Duration(milliseconds: 0),
-                                    //     ),
-                                    //   },
-                                    // );
-                                  },
-                                  child: RichText(
-                                    textScaler:
-                                        MediaQuery.of(context).textScaler,
-                                    text: TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: 'Forgot Password? ',
-                                          style: TextStyle(),
-                                        ),
-                                        TextSpan(
-                                          text: 'Reset It Now',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Readex Pro',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                fontSize: 16,
-                                                letterSpacing: 0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                        )
-                                      ],
-                                      style: FlutterFlowTheme.of(context)
-                                          .labelLarge
-                                          .override(
-                                            fontFamily: 'Readex Pro',
-                                            letterSpacing: 0,
-                                          ),
-                                    ),
                                   ),
                                 ),
                               ),

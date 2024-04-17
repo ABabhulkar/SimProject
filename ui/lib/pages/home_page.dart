@@ -61,7 +61,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                     Container(
                       width: 40,
                       height: MediaQuery.sizeOf(context).height * 1,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 4,
@@ -80,7 +80,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
               Expanded(
                 flex: 2,
                 child: Align(
-                  alignment: AlignmentDirectional(0, 0),
+                  alignment: const AlignmentDirectional(0, 0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,11 +88,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       Expanded(
                         flex: 1,
                         child: Align(
-                          alignment: AlignmentDirectional(0, 0),
+                          alignment: const AlignmentDirectional(0, 0),
                           child: Padding(
-                            padding: EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(16),
                             child: Container(
-                              decoration: BoxDecoration(),
+                              decoration: const BoxDecoration(),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -100,9 +100,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Align(
-                                    alignment: AlignmentDirectional(-1, -1),
+                                    alignment:
+                                        const AlignmentDirectional(-1, -1),
                                     child: Padding(
-                                      padding: EdgeInsets.all(12),
+                                      padding: const EdgeInsets.all(12),
                                       child: Text(
                                         'SimProject',
                                         textAlign: TextAlign.start,
@@ -116,9 +117,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     ),
                                   ),
                                   Align(
-                                    alignment: AlignmentDirectional(1, 0),
+                                    alignment: const AlignmentDirectional(1, 0),
                                     child: Padding(
-                                      padding: EdgeInsets.all(5),
+                                      padding: const EdgeInsets.all(5),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(8),
                                         child: Image.network(
@@ -146,7 +147,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           child: Column(
                             children: [
                               Align(
-                                alignment: Alignment(0, 0),
+                                alignment: const Alignment(0, 0),
                                 child: TabBar(
                                   labelColor:
                                       FlutterFlowTheme.of(context).primaryText,
@@ -159,11 +160,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                         fontFamily: 'Readex Pro',
                                         letterSpacing: 0,
                                       ),
-                                  unselectedLabelStyle: TextStyle(),
+                                  unselectedLabelStyle: const TextStyle(),
                                   indicatorColor:
                                       FlutterFlowTheme.of(context).primary,
-                                  padding: EdgeInsets.all(4),
-                                  tabs: [
+                                  padding: const EdgeInsets.all(4),
+                                  tabs: const [
                                     Tab(
                                       text: 'Home',
                                     ),
@@ -191,7 +192,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     wrapWithModel(
                                       model: _model.homeModel,
                                       updateCallback: () => setState(() {}),
-                                      child: HomeWidget(),
+                                      child: const HomeWidget(),
                                     ),
                                     Text(
                                       'Tab View 2',

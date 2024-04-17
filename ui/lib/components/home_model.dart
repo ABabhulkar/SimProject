@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 
-import '../components/home.dart' show HomeWidget;
+import 'home.dart' show HomeWidget;
 
 class HomeModel extends FlutterFlowModel<HomeWidget> {
   ///  State fields for stateful widgets in this component.

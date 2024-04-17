@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'package:sim_frontend/model/auth_3_forgot_password.dart';
+import 'package:sim_frontend/model/forgot_password_model.dart';
+import 'package:sim_frontend/widgets/sim_button_widget.dart';
 
-export 'package:sim_frontend/model/auth_3_forgot_password.dart';
+export 'package:sim_frontend/model/forgot_password_model.dart';
 
-class Auth3ForgotPasswordWidget extends StatefulWidget {
-  const Auth3ForgotPasswordWidget({super.key});
+class ForgotPasswordPageWidget extends StatefulWidget {
+  const ForgotPasswordPageWidget({super.key});
 
   @override
-  State<Auth3ForgotPasswordWidget> createState() =>
-      _Auth3ForgotPasswordWidgetState();
+  State<ForgotPasswordPageWidget> createState() =>
+      _ForgotPasswordPageWidgetState();
 }
 
-class _Auth3ForgotPasswordWidgetState extends State<Auth3ForgotPasswordWidget>
+class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget>
     with TickerProviderStateMixin {
-  late Auth3ForgotPasswordModel _model;
+  late ForgotPasswordModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -52,7 +53,7 @@ class _Auth3ForgotPasswordWidgetState extends State<Auth3ForgotPasswordWidget>
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => Auth3ForgotPasswordModel());
+    _model = createModel(context, () => ForgotPasswordModel());
 
     _model.emailController ??= TextEditingController();
     _model.emailFocusNode ??= FocusNode();
@@ -149,8 +150,8 @@ class _Auth3ForgotPasswordWidgetState extends State<Auth3ForgotPasswordWidget>
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 12, 0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 12, 0),
                                         child: Icon(
                                           Icons.flourescent_rounded,
                                           color: FlutterFlowTheme.of(context)
@@ -182,8 +183,8 @@ class _Auth3ForgotPasswordWidgetState extends State<Auth3ForgotPasswordWidget>
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 12),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 12),
                                         child: FlutterFlowIconButton(
                                           borderColor:
                                               FlutterFlowTheme.of(context)
@@ -201,9 +202,9 @@ class _Auth3ForgotPasswordWidgetState extends State<Auth3ForgotPasswordWidget>
                                             size: 24,
                                           ),
                                           onPressed: () async {
+                                            Navigator.pop(context);
                                             // context.safePop();
                                           },
-
                                         ),
                                       ),
                                       Text(
@@ -216,8 +217,8 @@ class _Auth3ForgotPasswordWidgetState extends State<Auth3ForgotPasswordWidget>
                                             ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 4, 0, 24),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 4, 0, 24),
                                         child: Text(
                                           'Enter your email below in order be sent a reset password link.',
                                           style: FlutterFlowTheme.of(context)
@@ -229,8 +230,8 @@ class _Auth3ForgotPasswordWidgetState extends State<Auth3ForgotPasswordWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 16),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 0, 0, 16),
                                         child: SizedBox(
                                           width: double.infinity,
                                           child: TextFormField(
@@ -319,43 +320,16 @@ class _Auth3ForgotPasswordWidgetState extends State<Auth3ForgotPasswordWidget>
                                         ),
                                       ),
                                       Align(
-                                        alignment: const AlignmentDirectional(1, -1),
+                                        alignment:
+                                            const AlignmentDirectional(1, -1),
                                         child: Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 16),
-                                          child: FFButtonWidget(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(0, 0, 0, 16),
+                                          child: SimButtonWidget(
                                             onPressed: () {
                                               print('Button pressed ...');
                                             },
                                             text: 'Send Reset Link',
-                                            options: FFButtonOptions(
-                                              width: 200,
-                                              height: 44,
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 0),
-                                              iconPadding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0, 0, 0, 0),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        color: Colors.white,
-                                                        letterSpacing: 0,
-                                                      ),
-                                              elevation: 3,
-                                              borderSide: const BorderSide(
-                                                color: Colors.transparent,
-                                                width: 1,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
                                           ),
                                         ),
                                       ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'package:sim_frontend/model/home_model.dart';
+import 'package:sim_frontend/components/home_model.dart';
 
-export 'package:sim_frontend/model/home_model.dart';
+import '../widgets/sim_button_widget.dart';
+
+export 'package:sim_frontend/components/home_model.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -95,28 +97,11 @@ class _HomeWidgetState extends State<HomeWidget> {
             validator: _model.textControllerValidator.asValidator(context),
           ),
         ),
-        FFButtonWidget(
+        SimButtonWidget(
+          text: 'Start Game',
           onPressed: () {
             print('Button pressed ...');
           },
-          text: 'Start Game',
-          options: FFButtonOptions(
-            height: 40,
-            padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-            iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-            color: FlutterFlowTheme.of(context).primary,
-            textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                  fontFamily: 'Readex Pro',
-                  color: Colors.white,
-                  letterSpacing: 0,
-                ),
-            elevation: 3,
-            borderSide: BorderSide(
-              color: Colors.transparent,
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(8),
-          ),
         ),
       ],
     );
