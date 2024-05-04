@@ -14,7 +14,7 @@ else Valid User [code 1]
   Database->>Server: User Found
   deactivate Database
   Server->>Server: Generate Jwt token for session
-  Server->>User: Login Successful (JWT Token) [as Cookie]
+  Server->>User: Login Successful (JWT Token) [as in response]
 end
 deactivate Server
 @enduml

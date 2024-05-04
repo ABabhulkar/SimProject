@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
+import 'package:sim_frontend/model/api_response.dart';
 import 'package:sim_frontend/model/login_model.dart';
+import 'package:sim_frontend/services/login_call.dart';
 import 'package:sim_frontend/widgets/sim_button_widget.dart';
 
 import '../widgets/text_input_field.dart';
@@ -256,9 +260,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                           padding: const EdgeInsetsDirectional
                                               .fromSTEB(0, 0, 0, 16),
                                           child: SimButtonWidget(
-                                            onPressed: () {
-                                              print('Button pressed ...');
-                                            },
+                                            onPressed: login,
                                             text: 'Login',
                                           ),
                                         ),
@@ -417,5 +419,27 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
         ),
       ),
     );
+  }
+
+  Future<void> login() async {
+    print('Button pressed ...');
+    String email = _model.emailAddressController.text;
+    String password = _model.passwordController.text;
+
+    LoginCall instance = LoginCall(username: email, password: password);
+    APIResponse response = await instance.call();
+
+    if (response.code == 1) {
+      await Navigator.pushNamed(
+        context,
+        '/home',
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response.message),
+        ),
+      );
+    }
   }
 }
