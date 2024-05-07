@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 
 import '../pages/create_user_page.dart' show CreateUserPageWidget;
+import '../utils/utils.dart';
 
 class CreateUserModel extends FlutterFlowModel<CreateUserPageWidget> {
   ///  State fields for stateful widgets in this page.
-
   final unfocusNode = FocusNode();
+
+  // State field(s) for userName widget.
+  FocusNode? userNameFocusNode;
+  TextEditingController? userNameController;
+  String? Function(BuildContext, String?)? userNameControllerValidator;
 
   // State field(s) for emailAddress widget.
   FocusNode? emailAddressFocusNode;
@@ -34,6 +39,8 @@ class CreateUserModel extends FlutterFlowModel<CreateUserPageWidget> {
   @override
   void dispose() {
     unfocusNode.dispose();
+    userNameFocusNode?.dispose();
+    userNameController?.dispose();
     emailAddressFocusNode?.dispose();
     emailAddressController?.dispose();
 
@@ -42,5 +49,27 @@ class CreateUserModel extends FlutterFlowModel<CreateUserPageWidget> {
 
     passwordConfirmFocusNode?.dispose();
     passwordConfirmController?.dispose();
+  }
+
+  Map<String, dynamic> getValidatedData() {
+    //TODO: Also add minimum size on password
+    if(passwordConfirmController.text != passwordController.text){
+      return {
+        'error': 'Incorrect password'
+      };
+    }
+    if(!Utils.isValidEmail(emailAddressController.text)){
+      return {
+        'error': 'Incorrect email'
+      };
+    }
+    return {
+      'error': 'Success',
+      'username': userNameController.text,
+      "email": emailAddressController.text,
+      "password": passwordController.text,
+      "metadata": {},
+      "role": "user"
+    };
   }
 }

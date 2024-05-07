@@ -25,14 +25,14 @@ class UserController:
             return jsonify({'error': 'Request must be in JSON format'}), 400
         try:
             user_data = request.get_json()
-            username = user_data['username']
+            uname = user_data['username']
             email = user_data['email']
         except KeyError:
             return jsonify({'error': 'Missing required fields in JSON data'}), 400
 
         try:
             # Check if username or email already exists
-            if User.query.filter_by(username=username).first() or User.query.filter_by(email=email).first():
+            if User.query.filter_by(username=uname).first() or User.query.filter_by(email=email).first():
                 return jsonify({'error': 'Username or email already exists'}), 409
 
             new_user = User(
@@ -47,18 +47,19 @@ class UserController:
             db.session.commit()
         except Exception as e:  # Catch any validation errors
             # Raise a custom BadRequest exception with the user-friendly error message
-            return jsonify({'error': ''}), 200
+            return jsonify({'error': ''}), 400
 
         token = jwt.encode({'user_id': new_user.id}, sk, algorithm="HS256")
-        response = make_response(jsonify({'error': 'Success', 'user_id': new_user.id}))
-        response.set_cookie('token', token)
+        response = make_response(jsonify({'error': 'Success', 'user_id': new_user.id,'token': token}))
 
         return response, 200
 
     @staticmethod
     def retrieve_users(username):
-        response = User.query.filter_by(username=username).first().toDict()
-        return jsonify(response)
+        response = User.query.filter_by(username=username).first()
+        if response:
+            return jsonify(response.toDict())
+        return jsonify({'error':'Invalid user'})
 
     @staticmethod
     def update_user(username):
@@ -93,20 +94,20 @@ class UserController:
 
     @staticmethod
     def login():
-        if request.headers['Content-Type'] != 'application/json':
+        if (request.headers['Content-Type'] != 'application/json; charset=utf-8') and (request.headers['Content-Type'] != 'application/json'):
             return jsonify({'error': 'Unsupported Media Type', 'code': 2}), 415
 
-        username = request.json.get('username')
+        uname = request.json.get('username')
         password = request.json.get('password')
 
-        user = User.query.filter_by(username=username).first().toDict()
+        user = User.query.filter_by(username=uname).first()
         response = make_response(jsonify({'message': 'Login failed', 'code': 2}))
 
-        if user['username'] == username and user['password'] == password:
-            token = jwt.encode(
-                {'user_id': user['id']}, sk, algorithm="HS256")
-            response = make_response(
-                jsonify({'message': 'Login successful', 'code': 1}))
-            response.set_cookie('token', token)
+        if user:
+            if user.toDict()['username'] == uname and user.toDict()['password'] == password:
+                token = jwt.encode(
+                    {'user_id': user.toDict()['id']}, sk, algorithm="HS256")
+                response = make_response(
+                    jsonify({'message': 'Login successful', 'code': 1, 'token': token}))
 
         return response, 200

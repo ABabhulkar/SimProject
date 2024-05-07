@@ -4,7 +4,6 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import '../model/login_model.dart';
 
 class TextInputField extends StatelessWidget {
-  final LoginModel model;
   final String textLable;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -12,16 +11,17 @@ class TextInputField extends StatelessWidget {
   final String? Function(String?)? validator;
   final String autofillHint;
   final Widget? suffixIcon;
+  final bool obsureText;
 
   const TextInputField(
       {super.key,
-      required this.model,
       required this.textLable,
       required this.controller,
       required this.focusNode,
       required this.textInputType,
-      required this.validator,
+      this.validator,
       required this.autofillHint,
+      this.obsureText = false,
       this.suffixIcon});
 
   @override
@@ -35,7 +35,7 @@ class TextInputField extends StatelessWidget {
           focusNode: focusNode,
           autofocus: true,
           autofillHints: [autofillHint],
-          obscureText: false,
+          obscureText: obsureText,
           decoration: InputDecoration(
             labelText: textLable,
             labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
