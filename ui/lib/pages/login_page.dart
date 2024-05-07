@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
-import 'package:sim_frontend/model/api_response.dart';
+import 'package:sim_frontend/services/api_response.dart';
 import 'package:sim_frontend/model/login_model.dart';
 import 'package:sim_frontend/services/login_call.dart';
 import 'package:sim_frontend/widgets/sim_button_widget.dart';
@@ -60,8 +61,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
     super.initState();
     _model = createModel(context, () => LoginModel());
 
-    _model.emailAddressController ??= TextEditingController();
-    _model.emailAddressFocusNode ??= FocusNode();
+    _model.userNameController ??= TextEditingController();
+    _model.userNameFocusNode ??= FocusNode();
 
     _model.passwordController ??= TextEditingController();
     _model.passwordFocusNode ??= FocusNode();
@@ -213,20 +214,17 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                         ),
                                       ),
                                       TextInputField(
-                                        model: _model,
-                                        textLable: "Email",
-                                        controller:
-                                            _model.emailAddressController,
-                                        focusNode: _model.emailAddressFocusNode,
+                                        textLable: "Username",
+                                        controller: _model.userNameController,
+                                        focusNode: _model.userNameFocusNode,
                                         textInputType:
-                                            TextInputType.emailAddress,
+                                            TextInputType.name,
                                         validator: _model
-                                            .emailAddressControllerValidator
+                                            .userNameControllerValidator
                                             .asValidator(context),
-                                        autofillHint: AutofillHints.email,
+                                        autofillHint: AutofillHints.username,
                                       ),
                                       TextInputField(
-                                        model: _model,
                                         textLable: "Password",
                                         controller: _model.passwordController,
                                         focusNode: _model.passwordFocusNode,
@@ -236,6 +234,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
                                             .passwordControllerValidator
                                             .asValidator(context),
                                         autofillHint: AutofillHints.password,
+                                        obsureText: !_model.passwordVisibility,
                                         suffixIcon: InkWell(
                                           onTap: () => setState(
                                             () => _model.passwordVisibility =
@@ -422,12 +421,13 @@ class _LoginPageWidgetState extends State<LoginPageWidget>
   }
 
   Future<void> login() async {
-    print('Button pressed ...');
-    String email = _model.emailAddressController.text;
+    if (kDebugMode) {
+      print('Login button pressed ...');
+    }
+    String username = _model.userNameController.text;
     String password = _model.passwordController.text;
 
-    LoginCall instance = LoginCall(username: email, password: password);
-    APIResponse response = await instance.call();
+    APIResponse response = await ApiCalls.login(username, password);
 
     if (response.code == 1) {
       await Navigator.pushNamed(
